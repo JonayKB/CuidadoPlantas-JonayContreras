@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $imageMimeType
  * @property string $created_at
  * @property string $updated_at
- * @property User $user
- * @property Plant $plant
  * @property Comment[] $comments
+ * @property Plant $plant
+ * @property User $user
  */
 class Post extends Model
 {
@@ -28,23 +28,16 @@ class Post extends Model
     protected $primaryKey = 'post_id';
 
     /**
-     * Indicates if the IDs are auto-incrementing.
-     * 
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
      * @var array
      */
     protected $fillable = ['plant_id', 'user_id', 'title', 'description', 'image', 'imageMimeType', 'created_at', 'updated_at'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function user()
+    public function comments()
     {
-        return $this->belongsTo('App\Models\User', null, 'user_id');
+        return $this->hasMany('App\Models\Comment', null, 'post_id');
     }
 
     /**
@@ -56,10 +49,10 @@ class Post extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function comments()
+    public function user()
     {
-        return $this->hasMany('App\Models\Comment', null, 'post_id');
+        return $this->belongsTo('App\Models\User', null, 'user_id');
     }
 }

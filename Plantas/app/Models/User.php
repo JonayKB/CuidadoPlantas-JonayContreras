@@ -12,9 +12,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $verified
  * @property string $created_at
  * @property string $updated_at
- * @property Post[] $posts
  * @property Role $role
  * @property Comment[] $comments
+ * @property Post[] $posts
  */
 class User extends Model
 {
@@ -26,24 +26,9 @@ class User extends Model
     protected $primaryKey = 'user_id';
 
     /**
-     * Indicates if the IDs are auto-incrementing.
-     * 
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
      * @var array
      */
     protected $fillable = ['role_id', 'name', 'password', 'verified', 'created_at', 'updated_at'];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function posts()
-    {
-        return $this->hasMany('App\Models\Post', null, 'user_id');
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -59,5 +44,13 @@ class User extends Model
     public function comments()
     {
         return $this->hasMany('App\Models\Comment', null, 'user_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Post', null, 'user_id');
     }
 }
