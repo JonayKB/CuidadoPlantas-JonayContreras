@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1730976035">
-  <project timestamp="1730976035">
+<coverage generated="1730976273">
+  <project timestamp="1730976273">
     <package name="App\Http\Controllers">
       <file name="/home/alumno/CuidadoPlantas/CuidadoPlantas/app/Http/Controllers/Controller.php">
         <class name="App\Http\Controllers\Controller" namespace="App\Http\Controllers">
