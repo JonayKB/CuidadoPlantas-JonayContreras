@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,26 +17,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property Comment[] $comments
  * @property Post[] $posts
  */
-class User extends Model
+class User extends Authenticatable
 {
-    /**
-     * The primary key for the model.
-     * 
-     * @var string
-     */
-    protected $primaryKey = 'user_id';
+    public $fillable = ['name', 'email', 'password','verified', 'created_at', 'updated_at'];
 
     /**
-     * @var array
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    protected $fillable = ['role_id', 'name', 'password', 'verified', 'created_at', 'updated_at'];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function role()
+    public function roles()
     {
-        return $this->belongsTo('App\Models\Role', null, 'role_id');
+        return $this->belongsToMany(Rol::class, 'user_rol', 'user_id','id', '',''); //TODO
     }
 
     /**
@@ -43,7 +34,7 @@ class User extends Model
      */
     public function comments()
     {
-        return $this->hasMany('App\Models\Comment', null, 'user_id');
+        return $this->hasMany('App\Models\Comment', null, 'id');
     }
 
     /**
