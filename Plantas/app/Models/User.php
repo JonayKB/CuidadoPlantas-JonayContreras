@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,12 +15,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $verified
  * @property string $created_at
  * @property string $updated_at
- * @property Role $role
+ * @property Rol $role
  * @property Comment[] $comments
  * @property Post[] $posts
  */
 class User extends Authenticatable
 {
+    use HasFactory;
     public $fillable = ['name', 'email', 'password','verified', 'created_at', 'updated_at'];
 
     /**
@@ -47,4 +50,5 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Post', null, 'user_id');
     }
+
 }

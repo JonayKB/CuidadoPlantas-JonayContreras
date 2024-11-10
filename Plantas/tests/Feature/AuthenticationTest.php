@@ -5,11 +5,22 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
+    private $isDatabaseCreated = false;
+    public function setUp(): void
+    {
+        parent::setUp();
+        if (!$this->isDatabaseCreated) {
+            $pdo = DB::getPdo();
+            require 'CreateDatabase.php';
+            $this->isDatabaseCreated = true;
+        }
+    }
 
     public function test_login_screen_can_be_rendered(): void
     {
