@@ -20,7 +20,7 @@ class Comment extends Model
 {
     /**
      * The primary key for the model.
-     * 
+     *
      * @var string
      */
     protected $primaryKey = 'comment_id';

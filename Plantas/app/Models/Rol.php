@@ -32,10 +32,13 @@ class Rol extends Model
     protected $fillable = ['name'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function users()
     {
-        return $this->hasMany('App\Models\User', null, 'id');
+        return $this->belongsToMany(User::class,
+         'user_rol',
+         'rol_id',
+         'user_id');
     }
 }

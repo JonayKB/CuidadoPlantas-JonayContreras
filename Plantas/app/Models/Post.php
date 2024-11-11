@@ -23,7 +23,7 @@ class Post extends Model
 {
     /**
      * The primary key for the model.
-     * 
+     *
      * @var string
      */
     protected $primaryKey = 'post_id';
