@@ -24,7 +24,7 @@ class Rol extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'role_id';
+    protected $primaryKey = 'id';
 
     /**
      * @var array
@@ -36,6 +36,6 @@ class Rol extends Model
      */
     public function users()
     {
-        return $this->hasMany('App\Models\User', null, 'role_id');
+        return $this->hasMany('App\Models\User', null, 'id');
     }
 }

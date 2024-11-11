@@ -9,14 +9,14 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('roles', function (Blueprint $table) {
-            $table->id('role_id');
+            $table->id('id');
             $table->string('name', 50);
         });
 
 
         DB::table('roles')->insert([
-            ['role_id' => 1, 'name' => 'user'],
-            ['role_id' => 2, 'name' => 'admin'],
+            ['id' => 1, 'name' => 'user'],
+            ['id' => 2, 'name' => 'admin'],
         ]);
     }
 
