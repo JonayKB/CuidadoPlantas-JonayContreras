@@ -75,7 +75,7 @@ CREATE TABLE `posts` (
 --
 
 CREATE TABLE `roles` (
-  `role_id` bigint NOT NULL,
+  `id` bigint NOT NULL,
   `name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -83,7 +83,7 @@ CREATE TABLE `roles` (
 -- Volcado de datos para la tabla `roles`
 --
 
-INSERT INTO `roles` (`role_id`, `name`) VALUES
+INSERT INTO `roles` (`id`, `name`) VALUES
 (1, 'user'),
 (2, 'admin');
 
@@ -161,7 +161,7 @@ ALTER TABLE `posts`
 -- Indices de la tabla `roles`
 --
 ALTER TABLE `roles`
-  ADD PRIMARY KEY (`role_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `users`
@@ -241,7 +241,7 @@ ALTER TABLE `posts`
 -- Filtros para la tabla `user_rol`
 --
 ALTER TABLE `user_rol`
-  ADD CONSTRAINT `user_rol_roles_FK` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`role_id`),
+  ADD CONSTRAINT `user_rol_roles_FK` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`),
   ADD CONSTRAINT `user_rol_users_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
