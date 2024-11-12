@@ -2,12 +2,12 @@
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <title>Dashboard for /home/alumno/CuidadoPlantas/Plantas/app/Http/Requests/Auth</title>
+  <title>Dashboard for /home/alumno/CuidadoPlantas/Plantas/app/Repository</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="../../../_css/bootstrap.min.css?v=10.1.16" rel="stylesheet" type="text/css">
-  <link href="../../../_css/nv.d3.min.css?v=10.1.16" rel="stylesheet" type="text/css">
-  <link href="../../../_css/style.css?v=10.1.16" rel="stylesheet" type="text/css">
-  <link href="../../../_css/custom.css" rel="stylesheet" type="text/css">
+  <link href="../_css/bootstrap.min.css?v=10.1.16" rel="stylesheet" type="text/css">
+  <link href="../_css/nv.d3.min.css?v=10.1.16" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css?v=10.1.16" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
  </head>
  <body>
   <header>
@@ -16,10 +16,8 @@
      <div class="col-md-12">
       <nav aria-label="breadcrumb">
        <ol class="breadcrumb">
-         <li class="breadcrumb-item"><a href="../../../index.html">/home/alumno/CuidadoPlantas/Plantas/app</a></li>
-         <li class="breadcrumb-item"><a href="../../index.html">Http</a></li>
-         <li class="breadcrumb-item"><a href="../index.html">Requests</a></li>
-         <li class="breadcrumb-item"><a href="index.html">Auth</a></li>
+         <li class="breadcrumb-item"><a href="../index.html">/home/alumno/CuidadoPlantas/Plantas/app</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Repository</a></li>
          <li class="breadcrumb-item active">(Dashboard)</li>
 
        </ol>
@@ -60,7 +58,6 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="LoginRequest.php.html#12">App\Http\Requests\Auth\LoginRequest</a></td><td class="text-right">65%</td></tr>
 
        </tbody>
       </table>
@@ -77,7 +74,6 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="LoginRequest.php.html#12">App\Http\Requests\Auth\LoginRequest</a></td><td class="text-right">9</td></tr>
 
        </tbody>
       </table>
@@ -115,7 +111,6 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="LoginRequest.php.html#60"><abbr title="App\Http\Requests\Auth\LoginRequest::ensureIsNotRateLimited">ensureIsNotRateLimited</abbr></a></td><td class="text-right">20%</td></tr>
 
        </tbody>
       </table>
@@ -132,7 +127,6 @@
         </tr>
        </thead>
        <tbody>
-       <tr><td><a href="LoginRequest.php.html#60"><abbr title="App\Http\Requests\Auth\LoginRequest::ensureIsNotRateLimited">ensureIsNotRateLimited</abbr></a></td><td class="text-right">4</td></tr>
 
        </tbody>
       </table>
@@ -146,9 +140,9 @@
     </p>
    </footer>
   </div>
-  <script src="../../../_js/jquery.min.js?v=10.1.16" type="text/javascript"></script>
-  <script src="../../../_js/d3.min.js?v=10.1.16" type="text/javascript"></script>
-  <script src="../../../_js/nv.d3.min.js?v=10.1.16" type="text/javascript"></script>
+  <script src="../_js/jquery.min.js?v=10.1.16" type="text/javascript"></script>
+  <script src="../_js/d3.min.js?v=10.1.16" type="text/javascript"></script>
+  <script src="../_js/nv.d3.min.js?v=10.1.16" type="text/javascript"></script>
   <script type="text/javascript">
 $(document).ready(function() {
   nv.addGraph(function() {
@@ -161,7 +155,7 @@ $(document).ready(function() {
       .yAxis.tickFormat(d3.format('d'));
 
     d3.select('#classCoverageDistribution svg')
-      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,1,0,0,0,0], "Class Coverage"))
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,0,0,1], "Class Coverage"))
       .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -179,7 +173,7 @@ $(document).ready(function() {
       .yAxis.tickFormat(d3.format('d'));
 
     d3.select('#methodCoverageDistribution svg')
-      .datum(getCoverageDistributionData([0,0,0,1,0,0,0,0,0,0,0,4], "Method Coverage"))
+      .datum(getCoverageDistributionData([0,0,0,0,0,0,0,0,0,0,0,0], "Method Coverage"))
       .transition().duration(500).call(chart);
 
     nv.utils.windowResize(chart.update);
@@ -229,7 +223,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Cyclomatic Complexity');
 
     d3.select('#classComplexity svg')
-      .datum(getComplexityData([[65.21739130434783,7,"<a href=\"LoginRequest.php.html#12\">App\\Http\\Requests\\Auth\\LoginRequest<\/a>"]], 'Class Complexity'))
+      .datum(getComplexityData([[100,0,"<a href=\"RolRepository.php.html#3\">App\\Repository\\RolRepository<\/a>"]], 'Class Complexity'))
       .transition()
       .duration(500)
       .call(chart);
@@ -253,7 +247,7 @@ $(document).ready(function() {
     chart.yAxis.axisLabel('Method Complexity');
 
     d3.select('#methodComplexity svg')
-      .datum(getComplexityData([[100,1,"<a href=\"LoginRequest.php.html#17\">App\\Http\\Requests\\Auth\\LoginRequest::authorize<\/a>"],[100,1,"<a href=\"LoginRequest.php.html#27\">App\\Http\\Requests\\Auth\\LoginRequest::rules<\/a>"],[100,2,"<a href=\"LoginRequest.php.html#40\">App\\Http\\Requests\\Auth\\LoginRequest::authenticate<\/a>"],[20,2,"<a href=\"LoginRequest.php.html#60\">App\\Http\\Requests\\Auth\\LoginRequest::ensureIsNotRateLimited<\/a>"],[100,1,"<a href=\"LoginRequest.php.html#81\">App\\Http\\Requests\\Auth\\LoginRequest::throttleKey<\/a>"]], 'Method Complexity'))
+      .datum(getComplexityData([], 'Method Complexity'))
       .transition()
       .duration(500)
       .call(chart);
