@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->integer('reports')->default(0);
             $table->timestamps();
         });
-        DB::table('posts')->insert([
+        DB::table('posts')->insert(values: [
             ['post_id' => 1, 'title' => 'First post', 'description' => 'This is the first post', 'plant_id' => 1, 'user_id' => 1, 'image' => 'image', 'imageMimeType' => '.jpg', 'reports' => 0],
             ['post_id' => 2, 'title' => 'Second post', 'description' => 'This is the second post', 'plant_id' => 2, 'user_id' => 2, 'image' => 'image', 'imageMimeType' => '.jpg', 'reports' => 0],
         ]);

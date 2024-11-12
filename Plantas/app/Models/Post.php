@@ -38,7 +38,7 @@ class Post extends Model
      */
     public function comments()
     {
-        return $this->hasMany('App\Models\Comment', null, 'post_id');
+        return $this->hasMany('App\Models\Comment', 'post_id', 'post_id');
     }
 
     /**
@@ -46,7 +46,7 @@ class Post extends Model
      */
     public function plant()
     {
-        return $this->belongsTo('App\Models\Plant', null, 'plant_id');
+        return $this->belongsTo('App\Models\Plant', 'plant_id', 'plant_id');
     }
 
     /**
@@ -54,6 +54,6 @@ class Post extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\Models\User', null, 'user_id');
+        return $this->belongsTo('App\Models\User', null, 'id');
     }
 }

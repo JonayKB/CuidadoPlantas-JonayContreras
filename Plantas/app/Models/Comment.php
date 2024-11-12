@@ -43,7 +43,7 @@ class Comment extends Model
      */
     public function post()
     {
-        return $this->belongsTo('App\Models\Post', null, 'post_id');
+        return $this->belongsTo('App\Models\Post', 'post_id', 'post_id');
     }
 
     /**
@@ -51,6 +51,6 @@ class Comment extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\Models\User', null, 'user_id');
+        return $this->belongsTo('App\Models\User', null, 'id');
     }
 }
