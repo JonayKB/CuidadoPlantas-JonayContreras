@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property integer $post_id
@@ -21,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Post extends Model
 {
+    use SoftDeletes;
+
     /**
      * The primary key for the model.
      *

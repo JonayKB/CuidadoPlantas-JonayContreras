@@ -11,6 +11,7 @@ return new class extends Migration {
         Schema::create('plants', function (Blueprint $table) {
             $table->id('plant_id');
             $table->string('name', 100);
+            $table->softDeletes();
         });
         DB::table('plants')->insert([
             ['plant_id' => 1, 'name' => 'Cactus'],

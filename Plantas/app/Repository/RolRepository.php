@@ -4,8 +4,8 @@ namespace App\Repository;
 
 use App\Models\Rol;
 use Exception;
-use ICrud;
 use Illuminate\Database\Eloquent\Collection;
+
 
 class RolRepository implements ICrud
 {

@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->foreignId('post_id')->constrained('posts','post_id')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
+
         });
         DB::table('comments')->insert([
             ['comment_id' => 1, 'content' => 'First comment', 'parent_comment_id' => null, 'post_id' => 1, 'user_id' => 1],
