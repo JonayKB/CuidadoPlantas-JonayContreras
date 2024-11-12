@@ -11,6 +11,7 @@ class CommentTest extends TestCase
 {
     use RefreshDatabase;
     public function test_001_get_Comment(){
+
         $comment = Comment::find(2);
         $parentComment = $comment->comment;
         $this->assertEquals($parentComment->content, 'First comment');
