@@ -46,11 +46,10 @@ class RegisteredUserController extends Controller
         $defaultRol=Rol::find(1);
         $user->roles()->attach($defaultRol);
         $user->save();
-
-
-
-
+        
         event(new Registered($user));
+
+
 
         Auth::login($user);
 
