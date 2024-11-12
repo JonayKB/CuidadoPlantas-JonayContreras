@@ -29,6 +29,6 @@ class Plant extends Model
      */
     public function posts()
     {
-        return $this->hasMany('App\Models\Post', null, 'plant_id');
+        return $this->hasMany('App\Models\Post', 'plant_id', 'plant_id');
     }
 }
