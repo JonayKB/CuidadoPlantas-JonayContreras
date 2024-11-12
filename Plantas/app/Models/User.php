@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * @property integer $user_id
@@ -15,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $verified
  * @property string $created_at
  * @property string $updated_at
+ * @property string $email_verified_at
+ * @property string $remember_token
  * @property Rol $role
  * @property Comment[] $comments
  * @property Post[] $posts
@@ -22,7 +25,8 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Authenticatable
 {
     use HasFactory;
-    public $fillable = ['name', 'email', 'password','verified', 'created_at', 'updated_at'];
+    use Notifiable;
+    public $fillable = ['name', 'email', 'password','verified', 'created_at', 'updated_at','email_verified_at','remember_token'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

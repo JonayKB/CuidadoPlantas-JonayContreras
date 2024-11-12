@@ -14,6 +14,8 @@ return new class extends Migration {
             $table->boolean('verified')->default(false);
             $table->string('email')->unique();
             $table->timestamps();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
         });
         DB::table('users')->insert([
             [
@@ -23,6 +25,7 @@ return new class extends Migration {
                 'verified' => false,
                 'created_at' => '2024-11-09 18:50:10',
                 'email' => 'jonaykb@gmail.com',
+                'email_verified_at' => '2024-12-09 18:50:10',
             ],
             [
                 'id' => 2,
@@ -31,6 +34,7 @@ return new class extends Migration {
                 'verified' => false,
                 'created_at' => '2024-11-09 22:36:40',
                 'email' => 'test@gmail.com',
+                'email_verified_at' => '2024-12-09 22:36:40',
             ],
         ]);
     }
