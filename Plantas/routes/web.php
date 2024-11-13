@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PostController::class,'index'])->name('home');
+Route::get('/{page?}', [PostController::class,'index'])->name('home')
+->where('page','[0-9]+');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -25,6 +27,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('post/{id}', [PostController::class, 'show'])->name('posts.show');
+    Route::get('postEdit/{id}', [PostController::class, 'edit'])->name('posts.edit');
+    Route::delete('post/{id}', [PostController::class, 'delete'])->name('posts.remove');
 });
 
 require __DIR__.'/auth.php';

@@ -14,16 +14,17 @@ return new class extends Migration {
             $table->text('description');
             $table->foreignId('plant_id')->constrained('plants', 'plant_id')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->binary('image');
-            $table->string('imageMimeType', 50);
+            $table->string('image',50);
             $table->integer('reports')->default(0);
             $table->timestamps();
             $table->softDeletes();
 
         });
         DB::table('posts')->insert(values: [
-            ['post_id' => 1, 'title' => 'First post', 'description' => 'This is the first post', 'plant_id' => 1, 'user_id' => 1, 'image' => 'image', 'imageMimeType' => '.jpg', 'reports' => 0],
-            ['post_id' => 2, 'title' => 'Second post', 'description' => 'This is the second post', 'plant_id' => 2, 'user_id' => 2, 'image' => 'image', 'imageMimeType' => '.jpg', 'reports' => 0],
+            ['post_id' => 1, 'title' => 'First post', 'description' => 'This is the first post',
+             'plant_id' => 1, 'user_id' => 1, 'image' => 'image', 'reports' => 0,'created_at'=>now()],
+            ['post_id' => 2, 'title' => 'Second post', 'description' => 'This is the second post',
+             'plant_id' => 2, 'user_id' => 2, 'image' => 'image', 'reports' => 0,'created_at'=>now()],
         ]);
     }
 

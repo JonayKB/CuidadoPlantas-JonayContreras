@@ -10,11 +10,12 @@ use Tests\TestCase;
 class CommentTest extends TestCase
 {
     use RefreshDatabase;
-    public function test_001_get_Comment(){
+    public function test_001_get_replies(){
 
-        $comment = Comment::find(2);
-        $parentComment = $comment->comment;
-        $this->assertEquals($parentComment->content, 'First comment');
+        $comment = Comment::find(1);
+        $parentComment = $comment->replies()->first();
+
+        $this->assertEquals('Second comment', $parentComment->content);
     }
     public function test_002_get_post(){
         $comment = Comment::find(2);

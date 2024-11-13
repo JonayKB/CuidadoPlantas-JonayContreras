@@ -22,11 +22,12 @@
                 @auth
                     @if (auth()->user()->roles->contains('name', 'admin'))
                         <a href="{{ url('/dashboard') }}"
-                           class="btn btn-outline-secondary fw-semibold me-2">Administración</a>
+                            class="btn btn-outline-secondary fw-semibold me-2">Administración</a>
                     @endif
                     <!-- Dropdown para el usuario autenticado -->
                     <div class="dropdown d-inline">
-                        <button class="btn btn-outline-secondary dropdown-toggle fw-semibold" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-outline-secondary dropdown-toggle fw-semibold" type="button"
+                            id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ auth()->user()->name }}
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
@@ -40,16 +41,48 @@
                         </ul>
                     </div>
                 @else
-                    <a href="{{ route('login') }}"
-                       class="btn btn-outline-secondary fw-semibold me-2">Log in</a>
+                    <a href="{{ route('login') }}" class="btn btn-outline-secondary fw-semibold me-2">Log in</a>
 
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                           class="btn btn-outline-secondary fw-semibold">Register</a>
+                        <a href="{{ route('register') }}" class="btn btn-outline-secondary fw-semibold">Register</a>
                     @endif
                 @endauth
             </div>
         @endif
+        <!--Posts-->
+        <div class="container">
+            @foreach ($posts as $post)
+                <a href="{{ route('posts.show', $post->post_id) }}">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            {{ $post->title }}
+
+                            <div class="float-end">
+                                <span class="badge bg-primary">{{ $post->plant->name }}</span>
+                                <span class="badge bg-success">{{ $post->user->name }}</span>
+                                <span class="badge bg-warning">{{ $post->reports }}</span>
+                            </div>
+                            <div class="card-body">
+                                <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}"
+                                    class="card-img-top">
+
+                            </div>
+                            @if (auth()->user()->name == $post->user->name)
+                                <div class="card-footer text-muted">
+                                    <a href="{{ route('posts.edit', $post->post_id) }}">Edit</a>
+                                    <form action="{{ route('posts.remove', $post->post_id) }}" method="POST"
+                                        class="float-end">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                                    </form>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </a>
+            @endforeach
+        </div>
 
     </div>
 

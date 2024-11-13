@@ -73,4 +73,13 @@ class PostRepository implements ICrud
         $this->connection1 = "sqlite";
         $this->connection2 = "sqlite";
     }
+    public function findByPage($page,$perpage){
+        $dtos = [];
+        try {
+            $dtos = Post::on($this->connection1)->paginate($perpage, ['*'], 'page', $page);
+        } catch (Exception $e) {
+            $dtos = Post::on($this->connection2)->paginate($perpage, ['*'], 'page', $page);
+        }
+        return $dtos;
+    }
 }
