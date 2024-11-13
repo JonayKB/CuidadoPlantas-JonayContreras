@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property integer $plant_id
@@ -11,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Plant extends Model
 {
+    use SoftDeletes;
+
     public $timestamps = false;
     /**
      * The primary key for the model.

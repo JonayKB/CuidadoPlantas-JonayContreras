@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property integer $role_id
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Rol extends Model
 {
+    use SoftDeletes;
     /**
      * The table associated with the model.
      *

@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->string('imageMimeType', 50);
             $table->integer('reports')->default(0);
             $table->timestamps();
+            $table->softDeletes();
+
         });
         DB::table('posts')->insert(values: [
             ['post_id' => 1, 'title' => 'First post', 'description' => 'This is the first post', 'plant_id' => 1, 'user_id' => 1, 'image' => 'image', 'imageMimeType' => '.jpg', 'reports' => 0],
