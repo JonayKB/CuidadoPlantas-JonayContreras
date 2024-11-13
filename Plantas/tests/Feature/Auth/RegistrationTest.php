@@ -3,6 +3,7 @@
 namespace Tests\Feature\Auth;
 
 use App\Providers\RouteServiceProvider;
+use App\Repository\UserRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
@@ -20,6 +21,10 @@ class RegistrationTest extends TestCase
 
     public function test_new_users_can_register(): void
     {
+        $userRepository = new UserRepository();
+        $userRepository->setTestMode();
+
+        $this->app->instance(UserRepository::class, $userRepository);
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
