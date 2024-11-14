@@ -22,4 +22,9 @@ class PlantTest extends TestCase
 
         $this->assertEquals($post->reports, 0);
     }
+    public function test_002_get_type(){
+        $plant = Plant::find(1);
+        $type = $plant->type;
+        $this->assertEquals($type->name, 'Cacti');
+    }
 }

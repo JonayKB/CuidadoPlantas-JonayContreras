@@ -54,14 +54,41 @@
                     {{ $post->title }}
 
                     <div class="float-end">
-                        <span class="badge bg-primary">{{ $post->plant->name }}</span>
-                        <span class="badge bg-success">{{ $post->user->name }}</span>
-                        <span class="badge bg-warning">{{ $post->reports }}</span>
+                        <span class="badge bg-success">{{ $post->plant->name }}</span>
+                        <span class="badge bg-dark">{{ $post->plant->type->name }}</span>
+                        <span class="badge bg-primary">{{ $post->user->name }}</span>
+                        <span class="badge bg-warning">{{ $post->category->name }}</span>
+                        <span class="badge bg-danger">{{ $post->reports }}</span>
                     </div>
                 </div>
                 <div class="card-body">
-                    <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}"
-                        class="card-img-top img-fluid" style="object-fit: contain; max-height:50rem">
+                    <div class="row">
+                        @foreach ($post->images as $image)
+                            <div class="col" style="cursor: pointer">
+                                <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $image->path }}"
+                                    class="card-img-top img-fluid" style="object-fit: contain; max-height:10rem"
+                                    data-bs-toggle="modal" data-bs-target="#modal{{ $image->id }}">
+                            </div>
+
+                            <div class="modal fade" id="modal{{ $image->id }}" tabindex="-1"
+                                aria-labelledby="modalLabel{{ $image->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalLabel{{ $image->id }}">Image</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <img src="{{ asset('storage/' . $image->path) }}"
+                                                alt="Image {{ $image->id }}" class="img-fluid"
+                                                style="max-width: 100%; max-height: 80vh; object-fit: contain;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                     <p class="card-text text-muted">{{ $post->description }}</p>
                     @if (Auth::check() && Auth::user()->id == $post->user_id)
                         <a href="{{ route('posts.edit', $post->post_id) }}" class="btn btn-warning">Edit</a>
@@ -107,12 +134,14 @@
                     <label id="commentHeader" for="commentContent" class="form-label">New Comment: </label>
 
                     <textarea id="commentContent" name="commentContent" class="form-control" rows="2" required maxlength="250"></textarea>
-                    <small id="commentLength" class="form-text text-muted d-block mb-3">Characters remaining: 250</small>
+                    <small id="commentLength" class="form-text text-muted d-block mb-3">Characters remaining:
+                        250</small>
                     <button type="submit" class="btn btn-primary mb-3">Submit</button>
-                    <button type="button" id="replayButton" class="btn btn-secondary mb-3" onclick="unReply()" hidden>Unreply</button>
+                    <button type="button" id="replayButton" class="btn btn-secondary mb-3" onclick="unReply()"
+                        hidden>Unreply</button>
                     <input type="hidden" id="postId" name="postId" value="{{ $post->post_id }}">
                     <input type="hidden" id="userId" name="userId" value="{{ Auth::id() }}">
-                    <input type="hidden" id="parentCommentId" name="parentCommentId" value="null">
+                    <input type="hidden" id="parentCommentId" name="parentCommentId" value="">
                 </div>
 
             </form>
@@ -126,11 +155,12 @@
     <script>
         function setParentCommentId(commentId, owner) {
             document.getElementById('parentCommentId').value = commentId;
-            document.getElementById('commentHeader').textContent = 'Replying ' + owner+":";
+            document.getElementById('commentHeader').textContent = 'Replying ' + owner + ":";
             document.getElementById('replayButton').hidden = false;
         }
-        function unReply(){
-            document.getElementById('parentCommentId').value = "null";
+
+        function unReply() {
+            document.getElementById('parentCommentId').value = "";
             document.getElementById('commentHeader').textContent = 'New Comment: ';
             document.getElementById('replayButton').hidden = true;
         }

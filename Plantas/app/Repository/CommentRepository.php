@@ -39,6 +39,7 @@ class CommentRepository implements ICrud
             $dto->setConnection($this->connection1)->save();
             $dto->setConnection($this->connection2)->save();
         } catch (Exception $e) {
+
             return null;
         }
         return $dto;

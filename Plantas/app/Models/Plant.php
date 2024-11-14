@@ -27,7 +27,7 @@ class Plant extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name','type'];
+    protected $fillable = ['name','type_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -37,6 +37,6 @@ class Plant extends Model
         return $this->hasMany('App\Models\Post', 'plant_id', 'plant_id');
     }
     public function type(){
-        return $this->belongsTo(PlantType::class,'type','id');
+        return $this->belongsTo(PlantType::class,'type_id','id');
     }
 }

@@ -58,24 +58,15 @@
                                     {{ $post->title }}
                                     <div class="float-end">
                                         <span class="badge bg-success">{{ $post->plant->name }}</span>
+                                        <span class="badge bg-dark">{{ $post->plant->type->name }}</span>
                                         <span class="badge bg-primary">{{ $post->user->name }}</span>
+                                        <span class="badge bg-warning">{{ $post->category->name }}</span>
                                         <span class="badge bg-danger">{{ $post->reports }}</span>
                                     </div>
                                     <div class="card-body">
-                                        <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}"
+                                        <img src="{{ asset('storage/' . $post->images[0]->path) }}" alt="{{ $post->title }}"
                                             class="card-img-top img-fluid" style="object-fit: contain; height: 30rem;">
                                     </div>
-                                    @if (auth()->check() && auth()->user()->name == $post->user?->name)
-                                        <div class="card-footer text-muted">
-                                            <a href="{{ route('posts.edit', $post->post_id) }}">Edit</a>
-                                            <form action="{{ route('posts.remove', $post->post_id) }}" method="POST"
-                                                class="float-end">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-outline-danger">Delete</button>
-                                            </form>
-                                        </div>
-                                    @endif
                                 </div>
                             </div>
                         </a>

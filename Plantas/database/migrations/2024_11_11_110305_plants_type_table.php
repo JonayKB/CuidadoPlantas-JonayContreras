@@ -10,25 +10,25 @@ return new class extends Migration {
     {
         Schema::create('plants_types', function (Blueprint $table) {
             $table->id();
-            $table->string('type', 25);
+            $table->string('name', 25);
             $table->softDeletes();
         });
         DB::table('plants_types')->insert([
-            ['type' => 'Trees'],
-            ['type' => 'Shrubs'],
-            ['type' => 'Herbs'],
-            ['type' => 'Climbers'],
-            ['type' => 'Creepers'],
-            ['type' => 'Ferns'],
-            ['type' => 'Grasses'],
-            ['type' => 'Succulents'],
-            ['type' => 'Cacti'],
-            ['type' => 'Aquatic Plants'],
-            ['type' => 'Mosses'],
-            ['type' => 'Algae'],
-            ['type' => 'Lichens'],
-            ['type' => 'Flowering Plants'],
-            ['type' => 'Non-Flowering Plants'],
+            ['name' => 'Trees'],
+            ['name' => 'Shrubs'],
+            ['name' => 'Herbs'],
+            ['name' => 'Climbers'],
+            ['name' => 'Creepers'],
+            ['name' => 'Ferns'],
+            ['name' => 'Grasses'],
+            ['name' => 'Succulents'],
+            ['name' => 'Cacti'],
+            ['name' => 'Aquatic Plants'],
+            ['name' => 'Mosses'],
+            ['name' => 'Algae'],
+            ['name' => 'Lichens'],
+            ['name' => 'Flowering Plants'],
+            ['name' => 'Non-Flowering Plants'],
         ]);
 
     }

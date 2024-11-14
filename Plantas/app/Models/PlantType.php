@@ -10,7 +10,7 @@ class PlantType extends Model
     use SoftDeletes;
     public $timestamps = false;
     protected $table = 'plants_types';
-    protected $fillable = ['type'];
+    protected $fillable = ['name'];
 
     public function plants()
     {
