@@ -23,6 +23,15 @@ class UserRepository implements ICrud
         }
         return $dto;
     }
+    public function findByEmail($email){
+        $dto = null;
+        try {
+            $dto = User::on($this->connection1)->where('email', $email)->first();
+        } catch (Exception $e) {
+            $dto = User::on($this->connection2)->where('email', $email)->first();
+        }
+        return $dto;
+    }
     public function findAll(): Collection
     {
         $dtos = [];

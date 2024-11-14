@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Repository\UserRepository;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -39,17 +40,19 @@ class LoginRequest extends FormRequest
      */
     public function authenticate(): void
     {
-        $this->ensureIsNotRateLimited();
+        $userRepository = new UserRepository();
+        if(app()->runningUnitTests()){
+            $userRepository->setTestMode();
+        }
+        $user = $userRepository->findByEmail($this->input('email'));
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
 
+        if (!$user || !Auth::attempt(['email' => $user->email, 'password' => $this->input('password')])) {
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => __('auth.failed'),
             ]);
         }
 
-        RateLimiter::clear($this->throttleKey());
     }
 
     /**

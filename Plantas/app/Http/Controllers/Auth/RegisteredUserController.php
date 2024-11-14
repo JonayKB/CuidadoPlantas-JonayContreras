@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Rol;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\Repository\RolRepository;
+use App\Repository\UserRepository;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -33,19 +35,30 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-
+        /*
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'verified' => false,
         ]);
-        $defaultRol=Rol::find(1);
+        */
+        $userRepository = new UserRepository();
+        $rolRepository = new RolRepository();
+        if (app()->runningUnitTests()) {
+            $userRepository->setTestMode();
+            $rolRepository->setTestMode();
+        }
+        $user = new User($request->all());
+        $user = $userRepository->save($user);
+        $defaultRol = $rolRepository->findById(1);
         $user->roles()->attach($defaultRol);
-        $user->save();
+        $user = $userRepository->save($user);
+
+
 
         event(new Registered($user));
 
