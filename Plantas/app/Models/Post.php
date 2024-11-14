@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $title
  * @property string $description
  * @property string $image
- * @property string $imageMimeType
  * @property string $created_at
  * @property string $updated_at
  * @property integer $reports
@@ -34,7 +33,7 @@ class Post extends Model
     /**
      * @var array
      */
-    protected $fillable = ['plant_id', 'user_id', 'title', 'description', 'image', 'imageMimeType', 'created_at', 'updated_at', 'reports'];
+    protected $fillable = ['plant_id', 'user_id', 'title', 'description', 'image', 'created_at', 'updated_at', 'reports'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

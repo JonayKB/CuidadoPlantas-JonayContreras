@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $content
  * @property string $created_at
  * @property string $updated_at
- * @property Comment $comment
+ * @property Comment[] $replies
  * @property Post $post
  * @property User $user
  */
@@ -34,11 +34,11 @@ class Comment extends Model
     protected $fillable = ['parent_comment_id', 'post_id', 'user_id', 'content', 'created_at', 'updated_at'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function comment()
+    public function replies()
     {
-        return $this->belongsTo('App\Models\Comment', 'parent_comment_id', 'comment_id');
+        return $this->hasMany('App\Models\Comment', 'parent_comment_id', 'comment_id');
     }
 
     /**
