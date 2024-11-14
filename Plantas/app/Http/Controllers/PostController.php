@@ -20,4 +20,11 @@ class PostController extends Controller
 
         return view('showPost', compact('post'));
     }
+
+    public function filterBy($filterType, $filter){
+        $postRepository = new PostRepository();
+        $posts = $postRepository->filterBy($filterType, $filter);
+
+        return view('welcome', compact('posts'));
+    }
 }

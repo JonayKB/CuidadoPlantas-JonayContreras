@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class PostRepository implements ICrud
 {
+    public int $amountPerPage = 6;
     public string $connection1 = "mysql";
     public string $connection2 = "sqliteLocal";
 
@@ -73,13 +74,36 @@ class PostRepository implements ICrud
         $this->connection1 = "sqlite";
         $this->connection2 = "sqlite";
     }
-    public function getPagination($perpage){
+    public function getPagination()
+    {
         $dtos = [];
         try {
-            $dtos = Post::on($this->connection1)->paginate($perpage);
+            $dtos = Post::on($this->connection1)->paginate($this->amountPerPage);
         } catch (Exception $e) {
-            $dtos = Post::on($this->connection2)->paginate($perpage);
+            $dtos = Post::on($this->connection2)->paginate($this->amountPerPage);
         }
+        return $dtos;
+    }
+    public function filterBy($filterType, $filter)
+    {
+        $dtos = [];
+        switch ($filterType) {
+            case 'plant':
+                break;
+            case 'user':
+                break;
+            case 'category':
+                break;
+            case 'title':
+                break;
+            case 'plantType':
+                break;
+
+            default:
+                # code...
+                break;
+        }
+
         return $dtos;
     }
 }

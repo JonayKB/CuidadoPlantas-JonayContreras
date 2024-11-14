@@ -17,7 +17,9 @@ class PlantTest extends TestCase
         $this->assertEquals($post->description, 'This is the first post');
         $this->assertEquals($post->plant_id, actual: 1);
         $this->assertEquals($post->user_id, 1);
-        $this->assertEquals($post->image, 'image.png');
+        $this->assertEquals($post->images->first()->path, 'image.png');
+        $this->assertEquals($post->category->name, 'Diseases');
+
         $this->assertEquals($post->reports, 0);
     }
 }

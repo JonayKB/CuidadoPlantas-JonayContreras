@@ -2,7 +2,7 @@
 <html lang="en">
  <head>
   <meta charset="UTF-8">
-  <title>Code Coverage for /home/alumno/CuidadoPlantas/Plantas/app/Providers/BroadcastServiceProvider.php</title>
+  <title>Code Coverage for /home/alumno/CuidadoPlantas/Plantas/app/Models/PlantType.php</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="../_css/bootstrap.min.css?v=10.1.16" rel="stylesheet" type="text/css">
   <link href="../_css/octicons.css?v=10.1.16" rel="stylesheet" type="text/css">
@@ -17,8 +17,8 @@
       <nav aria-label="breadcrumb">
        <ol class="breadcrumb">
          <li class="breadcrumb-item"><a href="../index.html">/home/alumno/CuidadoPlantas/Plantas/app</a></li>
-         <li class="breadcrumb-item"><a href="index.html">Providers</a></li>
-         <li class="breadcrumb-item active">BroadcastServiceProvider.php</li>
+         <li class="breadcrumb-item"><a href="index.html">Models</a></li>
+         <li class="breadcrumb-item active">PlantType.php</li>
 
        </ol>
       </nav>
@@ -51,7 +51,7 @@
        </div>
 </td>
        <td class="danger small"><div align="right">0.00%</div></td>
-       <td class="danger small"><div align="right">0&nbsp;/&nbsp;2</div></td>
+       <td class="danger small"><div align="right">0&nbsp;/&nbsp;1</div></td>
        <td class="danger big">       <div class="progress">
          <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="0.00" aria-valuemin="0" aria-valuemax="100" style="width: 0.00%">
            <span class="sr-only">0.00% covered (danger)</span>
@@ -72,7 +72,7 @@
       </tr>
 
       <tr>
-       <td class="danger"><abbr title="App\Providers\BroadcastServiceProvider">BroadcastServiceProvider</abbr></td>
+       <td class="danger"><abbr title="App\Models\PlantType">PlantType</abbr></td>
        <td class="danger big">       <div class="progress">
          <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="0.00" aria-valuemin="0" aria-valuemax="100" style="width: 0.00%">
            <span class="sr-only">0.00% covered (danger)</span>
@@ -80,7 +80,7 @@
        </div>
 </td>
        <td class="danger small"><div align="right">0.00%</div></td>
-       <td class="danger small"><div align="right">0&nbsp;/&nbsp;2</div></td>
+       <td class="danger small"><div align="right">0&nbsp;/&nbsp;1</div></td>
        <td class="danger big">       <div class="progress">
          <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="0.00" aria-valuemin="0" aria-valuemax="100" style="width: 0.00%">
            <span class="sr-only">0.00% covered (danger)</span>
@@ -101,7 +101,7 @@
       </tr>
 
       <tr>
-       <td class="danger">&nbsp;<a href="#13"><abbr title="boot(): void">boot</abbr></a></td>
+       <td class="danger">&nbsp;<a href="#15"><abbr title="plants()">plants</abbr></a></td>
        <td class="danger big">       <div class="progress">
          <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="0.00" aria-valuemin="0" aria-valuemax="100" style="width: 0.00%">
            <span class="sr-only">0.00% covered (danger)</span>
@@ -109,7 +109,7 @@
        </div>
 </td>
        <td class="danger small"><div align="right">0.00%</div></td>
-       <td class="danger small"><div align="right">0&nbsp;/&nbsp;2</div></td>
+       <td class="danger small"><div align="right">0&nbsp;/&nbsp;1</div></td>
        <td class="danger big">       <div class="progress">
          <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="0.00" aria-valuemin="0" aria-valuemax="100" style="width: 0.00%">
            <span class="sr-only">0.00% covered (danger)</span>
@@ -129,22 +129,22 @@
 <table id="code" class="table table-borderless table-condensed">
 <tbody>
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="1" href="#1">1</a></td><td class="col-11 codeLine"><span class="default">&lt;?php</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="2" href="#2">2</a></td><td class="col-11 codeLine"></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="3" href="#3">3</a></td><td class="col-11 codeLine"><span class="keyword">namespace</span><span class="default">&nbsp;</span><span class="default">App\Providers</span><span class="keyword">;</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="4" href="#4">4</a></td><td class="col-11 codeLine"></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="5" href="#5">5</a></td><td class="col-11 codeLine"><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">Illuminate\Support\Facades\Broadcast</span><span class="keyword">;</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="6" href="#6">6</a></td><td class="col-11 codeLine"><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">Illuminate\Support\ServiceProvider</span><span class="keyword">;</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="2" href="#2">2</a></td><td class="col-11 codeLine"><span class="keyword">namespace</span><span class="default">&nbsp;</span><span class="default">App\Models</span><span class="keyword">;</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="3" href="#3">3</a></td><td class="col-11 codeLine"></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="4" href="#4">4</a></td><td class="col-11 codeLine"><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">App\Models\Plant</span><span class="keyword">;</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="5" href="#5">5</a></td><td class="col-11 codeLine"><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">Illuminate\Database\Eloquent\Model</span><span class="keyword">;</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="6" href="#6">6</a></td><td class="col-11 codeLine"><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">Illuminate\Database\Eloquent\SoftDeletes</span><span class="keyword">;</span></td></tr>
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="7" href="#7">7</a></td><td class="col-11 codeLine"></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="8" href="#8">8</a></td><td class="col-11 codeLine"><span class="keyword">class</span><span class="default">&nbsp;</span><span class="default">BroadcastServiceProvider</span><span class="default">&nbsp;</span><span class="keyword">extends</span><span class="default">&nbsp;</span><span class="default">ServiceProvider</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="8" href="#8">8</a></td><td class="col-11 codeLine"><span class="keyword">class</span><span class="default">&nbsp;</span><span class="default">PlantType</span><span class="default">&nbsp;</span><span class="keyword">extends</span><span class="default">&nbsp;</span><span class="default">Model</span></td></tr>
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="9" href="#9">9</a></td><td class="col-11 codeLine"><span class="keyword">{</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="10" href="#10">10</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="11" href="#11">11</a></td><td class="col-11 codeLine"><span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Bootstrap&nbsp;any&nbsp;application&nbsp;services.</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="12" href="#12">12</a></td><td class="col-11 codeLine"><span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="13" href="#13">13</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">public</span><span class="default">&nbsp;</span><span class="keyword">function</span><span class="default">&nbsp;</span><span class="default">boot</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">:</span><span class="default">&nbsp;</span><span class="default">void</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="14" href="#14">14</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">{</span></td></tr>
-    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="15" href="#15">15</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">Broadcast</span><span class="default">::</span><span class="default">routes</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
-    <tr class=" d-flex"><td  class="col-1 text-right"><a id="16" href="#16">16</a></td><td class="col-11 codeLine"></td></tr>
-    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="17" href="#17">17</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">require</span><span class="default">&nbsp;</span><span class="default">base_path</span><span class="keyword">(</span><span class="default">'routes/channels.php'</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="10" href="#10">10</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">use</span><span class="default">&nbsp;</span><span class="default">SoftDeletes</span><span class="keyword">;</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="11" href="#11">11</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">public</span><span class="default">&nbsp;</span><span class="default">$timestamps</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">false</span><span class="keyword">;</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="12" href="#12">12</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$table</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">'plants_types'</span><span class="keyword">;</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="13" href="#13">13</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$fillable</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="keyword">[</span><span class="default">'type'</span><span class="keyword">]</span><span class="keyword">;</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="14" href="#14">14</a></td><td class="col-11 codeLine"></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="15" href="#15">15</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">public</span><span class="default">&nbsp;</span><span class="keyword">function</span><span class="default">&nbsp;</span><span class="default">plants</span><span class="keyword">(</span><span class="keyword">)</span></td></tr>
+    <tr class=" d-flex"><td  class="col-1 text-right"><a id="16" href="#16">16</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">{</span></td></tr>
+    <tr class="danger d-flex"><td  class="col-1 text-right"><a id="17" href="#17">17</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">return</span><span class="default">&nbsp;</span><span class="default">$this</span><span class="default">-&gt;</span><span class="default">hasMany</span><span class="keyword">(</span><span class="default">Plant</span><span class="default">::</span><span class="keyword">class</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">'type'</span><span class="keyword">,</span><span class="default">&nbsp;</span><span class="default">'id'</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="18" href="#18">18</a></td><td class="col-11 codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span></td></tr>
     <tr class=" d-flex"><td  class="col-1 text-right"><a id="19" href="#19">19</a></td><td class="col-11 codeLine"><span class="keyword">}</span></td></tr>
 

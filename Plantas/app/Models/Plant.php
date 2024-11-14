@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 /**
  * @property integer $plant_id
  * @property string $name
  * @property Post[] $posts
+ * @property PlantType $type
  */
 class Plant extends Model
 {
@@ -25,7 +27,7 @@ class Plant extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name','type'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -33,5 +35,8 @@ class Plant extends Model
     public function posts()
     {
         return $this->hasMany('App\Models\Post', 'plant_id', 'plant_id');
+    }
+    public function type(){
+        return $this->belongsTo(PlantType::class,'type','id');
     }
 }

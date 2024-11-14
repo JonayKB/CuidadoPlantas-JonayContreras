@@ -5,19 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 /**
  * @property integer $post_id
  * @property integer $plant_id
  * @property integer $user_id
  * @property string $title
  * @property string $description
- * @property string $image
  * @property string $created_at
  * @property string $updated_at
  * @property integer $reports
  * @property Comment[] $comments
  * @property Plant $plant
  * @property User $user
+ * @property Image[] $images
  */
 class Post extends Model
 {
@@ -33,7 +34,7 @@ class Post extends Model
     /**
      * @var array
      */
-    protected $fillable = ['plant_id', 'user_id', 'title', 'description', 'image', 'created_at', 'updated_at', 'reports'];
+    protected $fillable = ['plant_id', 'user_id', 'title', 'description', 'created_at', 'updated_at', 'reports', 'category_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -58,4 +59,14 @@ class Post extends Model
     {
         return $this->belongsTo('App\Models\User', null, 'id');
     }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'post_id', 'post_id');
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
 }
