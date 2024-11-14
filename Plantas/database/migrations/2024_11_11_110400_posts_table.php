@@ -20,11 +20,11 @@ return new class extends Migration {
             $table->softDeletes();
 
         });
-        DB::table('posts')->insert(values: [
+        DB::table('posts')->insert([
             ['post_id' => 1, 'title' => 'First post', 'description' => 'This is the first post',
-             'plant_id' => 1, 'user_id' => 1, 'image' => 'image', 'reports' => 0,'created_at'=>now()],
+             'plant_id' => 1, 'user_id' => 1, 'image' => 'image.png', 'reports' => 0,'created_at'=>now()],
             ['post_id' => 2, 'title' => 'Second post', 'description' => 'This is the second post',
-             'plant_id' => 2, 'user_id' => 2, 'image' => 'image', 'reports' => 0,'created_at'=>now()],
+             'plant_id' => 2, 'user_id' => 2, 'image' => 'image2.png', 'reports' => 0,'created_at'=>now()],
         ]);
     }
 

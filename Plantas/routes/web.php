@@ -27,10 +27,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-    Route::get('post/{id}', [PostController::class, 'show'])->name('posts.show');
-    Route::get('postEdit/{id}', [PostController::class, 'edit'])->name('posts.edit');
+Route::get('post/{id}', [PostController::class, 'show'])->name(name: 'posts.show');
+
+Route::middleware(['auth','user'])->group(function (){
     Route::delete('post/{id}', [PostController::class, 'delete'])->name('posts.remove');
+    Route::get('postEdit/{id}', [PostController::class, 'edit'])->name('posts.edit');
 });
 
 require __DIR__.'/auth.php';

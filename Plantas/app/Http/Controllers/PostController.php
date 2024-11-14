@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index($page = 1){
+    public function index(){
         $postRepository = new PostRepository();
-        $posts = $postRepository->findByPage($page,10);
+        $posts = $postRepository->getPagination(6);
 
         return view('welcome', compact('posts'));
     }
