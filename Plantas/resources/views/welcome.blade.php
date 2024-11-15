@@ -49,6 +49,45 @@
 
         <!--Posts-->
         <div class="container">
+            <form action="/filter" class="text-center mb-5" method="POST">
+                @csrf
+                <div class="row mb-1">
+                    <div class="col-10">
+                        <input type="text" class="form-control" id="searchInput" name="search" placeholder="Search by title">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <div class="col">
+                        <select class="form-select" id="filterSelect" name="category">
+                            <option selected value="any">Choose category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" id="filterSelect" name="plant">
+                            <option selected value="any">Choose plant</option>
+                            @foreach ($plants as $plant)
+                                <option value="{{ $plant->plant_id }}">{{ $plant->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" id="filterSelect" name="plantType">
+                            <option selected value="any">Choose plant type</option>
+                            @foreach ($plantTypes as $plantType)
+                                <option value="{{ $plantType->id }}">{{ $plantType->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+
+            </form>
             <div class="row">
                 @foreach ($posts as $post)
                     <div class="col-12 col-md-6">
@@ -64,8 +103,9 @@
                                         <span class="badge bg-danger">{{ $post->reports }}</span>
                                     </div>
                                     <div class="card-body">
-                                        <img src="{{ asset('storage/' . $post->images[0]->path) }}" alt="{{ $post->title }}"
-                                            class="card-img-top img-fluid" style="object-fit: contain; height: 30rem;">
+                                        <img src="{{ asset('storage/' . $post->images[0]->path) }}"
+                                            alt="{{ $post->title }}" class="card-img-top img-fluid"
+                                            style="object-fit: contain; height: 30rem;">
                                     </div>
                                 </div>
                             </div>

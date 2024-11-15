@@ -2,15 +2,13 @@
 
 namespace App\Repository;
 
-use App\Models\Post;
+use App\Models\PlantType;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
 
-class PostRepository implements ICrud
+class PlantTypeRepository implements ICrud
 {
-    public final const AMOUNT_PER_PAGE = 6;
-
     public string $connection1 = "mysql";
     public string $connection2 = "sqliteLocal";
 
@@ -18,10 +16,10 @@ class PostRepository implements ICrud
     {
         $dto = null;
         try {
-            $dto = Post::on($this->connection1)->find($id);
+            $dto = PlantType::on($this->connection1)->find($id);
         } catch (Exception $e) {
 
-            $dto = Post::on($this->connection2)->find($id);
+            $dto = PlantType::on($this->connection2)->find($id);
         }
         return $dto;
     }
@@ -29,9 +27,9 @@ class PostRepository implements ICrud
     {
         $dtos = [];
         try {
-            $dtos = Post::on($this->connection1)->get();
+            $dtos = PlantType::on($this->connection1)->get();
         } catch (Exception $e) {
-            $dtos = Post::on($this->connection2)->get();
+            $dtos = PlantType::on($this->connection2)->get();
         }
         return $dtos;
     }
@@ -74,15 +72,5 @@ class PostRepository implements ICrud
     {
         $this->connection1 = "sqlite";
         $this->connection2 = "sqlite";
-    }
-    public function getPagination()
-    {
-        $dtos = [];
-        try {
-            $dtos = Post::on($this->connection1)->paginate(self::AMOUNT_PER_PAGE);
-        } catch (Exception $e) {
-            $dtos = Post::on($this->connection2)->paginate(self::AMOUNT_PER_PAGE);
-        }
-        return $dtos;
     }
 }
