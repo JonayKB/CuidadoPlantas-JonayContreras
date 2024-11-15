@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
 Route::get('post/{id}', [PostController::class, 'show'])->name(name: 'posts.show');
 Route::post('filter', [PostController::class, 'filter'])->name('posts.filter');
 
-Route::middleware(['auth','user'])->group(function (){
+Route::middleware(['auth','user','verified'])->group(function (){
     Route::delete('post/{id}', [PostController::class, 'delete'])->name('posts.remove');
     Route::get('postEdit/{id}', [PostController::class, 'edit'])->name('posts.edit');
     Route::post('post/addComment/{post_id}',[CommentController::class,'addComment'])->name('comment.add');

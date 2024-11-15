@@ -19,22 +19,24 @@
 <body class="bg-light text-dark">
     <div class="d-flex justify-content-center align-items-center min-vh-100 bg-body-secondary">
         @if (Route::has('login'))
-            <div class="fixed-top top-0 text-end end-0 p-3 z-3">
+            <div class="fixed-top top-0 text-end end-0 z-2">
                 @auth
                     @if (auth()->user()->roles->contains('name', 'admin'))
-                        <a href="{{ url('/dashboard') }}" class="btn btn-outline-secondary fw-semibold me-2">Dashboard</a>
+                        <a href="{{ route('home') }}"
+                            class="btn btn-outline-secondary fw-semibold mt-3 mr-3">Home</a>
                     @endif
 
                     @if (auth()->user()->roles->contains('name', 'user'))
-                    <a href="{{ route('posts.create') }}" class="fw-semibold me-2"><i class="bi bi-plus-circle-fill align-middle text-dark h2"></i></a>
-                @endif
+                        <a href="{{ route('posts.create') }}" class="fw-semibold"><i
+                                class="bi bi-plus-circle-fill align-middle text-dark h2 mt-3 pt-3"></i></a>
+                    @endif
                     <!-- Dropdown para el usuario autenticado -->
                     <div class="dropdown d-inline">
-                        <button class="btn btn-outline-secondary dropdown-toggle fw-semibold" type="button"
+                        <button class="btn btn-outline-secondary dropdown-toggle fw-semibold mt-3 mx-3" type="button"
                             id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ auth()->user()->name }}
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                        <ul class="dropdown-menu mx-5" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
                             <li>
                                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
@@ -45,9 +47,10 @@
                         </ul>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-outline-secondary fw-semibold me-2">Log in</a>
+                    <a href="{{ route('login') }}" class="btn btn-outline-secondary fw-semibold mt-3">Log in</a>
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="btn btn-outline-secondary fw-semibold">Register</a>
+                        <a href="{{ route('register') }}"
+                            class="btn btn-outline-secondary fw-semibold mt-3 mx-3">Register</a>
                     @endif
                 @endauth
             </div>

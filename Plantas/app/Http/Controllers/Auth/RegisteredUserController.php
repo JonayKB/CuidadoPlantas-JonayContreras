@@ -47,18 +47,11 @@ class RegisteredUserController extends Controller
         ]);
         */
         $userRepository = new UserRepository();
-        $rolRepository = new RolRepository();
+
         if (app()->runningUnitTests()) {
             $userRepository->setTestMode();
-            $rolRepository->setTestMode();
         }
-        $user = new User($request->all());
-        $user = $userRepository->save($user);
-        $defaultRol = $rolRepository->findById(1);
-        $user->roles()->attach($defaultRol);
-        $user = $userRepository->save($user);
-
-
+        $user = $userRepository->create($request);
 
         event(new Registered($user));
 

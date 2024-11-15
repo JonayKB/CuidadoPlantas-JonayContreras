@@ -22,6 +22,6 @@ class IsUser
             return $next($request);
         }
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(RouteServiceProvider::HOME)->with('error','You are not a user!');
     }
 }

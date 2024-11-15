@@ -38,6 +38,16 @@ return new class extends Migration {
                 'email' => 'test@gmail.com',
                 'email_verified_at' => '2024-12-09 22:36:40',
             ],
+            [
+                'id' => 3,
+                'name' => 'root',
+                'password' => '$2y$12$4l2kXM3BQngdLc9OlaDPCef/ACyt1vnBgj26Lqhf8KhIu7vKIb0H6',
+                'verified' => true,
+                'created_at' => '2024-11-15 14:36:40',
+                'email' => 'root@gmail.com',
+                'email_verified_at' => '2024-12-09 22:36:40',
+            ],
+
         ]);
     }
 

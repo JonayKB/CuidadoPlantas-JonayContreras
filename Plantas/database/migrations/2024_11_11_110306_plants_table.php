@@ -105,6 +105,7 @@ return new class extends Migration {
             ['plant_id' => 88, 'name' => 'Coconut', 'type_id' => 5],
             ['plant_id' => 89, 'name' => 'Avocado', 'type_id' => 5],
             ['plant_id' => 90, 'name' => 'Lemon Tree', 'type_id' => 1],
+            ['plant_id'=>91, 'name'=>'Other', 'type_id'=>16],
         ]);
 
     }

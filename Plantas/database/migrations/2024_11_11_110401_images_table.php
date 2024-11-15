@@ -17,7 +17,7 @@ return new class extends Migration {
         DB::table('images')->insert([
             ['id' => 1, 'path' => 'image.png', 'post_id'=>1],
             ['id' => 2, 'path' => 'image2.png', 'post_id'=>1],
-            ['id' => 3, 'path' => 'image3.png', 'post_id'=>2],
+            ['id' => 3, 'path' => 'image3.jpg', 'post_id'=>2],
         ]);
 
     }

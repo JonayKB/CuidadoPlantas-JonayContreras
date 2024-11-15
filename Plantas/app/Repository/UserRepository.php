@@ -5,7 +5,8 @@ namespace App\Repository;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements ICrud
 {
@@ -42,12 +43,44 @@ class UserRepository implements ICrud
         }
         return $dtos;
     }
+    public function create(Request $request): object | null{
+        $rolRepository = new RolRepository();
+        if (app()->runningUnitTests()) {
+            $rolRepository->setTestMode();
+        }
+        $user = new User([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+           'verified' => false,
+        ]);
+        $rol = $rolRepository->findById(1);
+        $user->setConnection($this->connection1)->save();
+        $user->setConnection($this->connection1)->roles()->attach($rol);
+        $user2 = new User([
+            'id'=>$user->id,
+            'name'=>$user->name,
+            'email'=>$user->email,
+            'password'=>$user->password,
+           'verified'=>$user->verified,
+           'remember_token'=>$user->remember_token,
+           'created_at'=>$user->created_at,
+           'updated_at'=>$user->updated_at,
+        ]);
+        $user2->setConnection($this->connection2)->save();
+        $user2->setConnection($this->connection2)->roles()->attach($rol);
+        return $user;
+
+
+    }
     public function save(object $dto): object | null
     {
         try {
             $dto->setConnection($this->connection1)->save();
+
             $dto->setConnection($this->connection2)->save();
         } catch (Exception $e) {
+            dd($e);
             return null;
         }
         return $dto;

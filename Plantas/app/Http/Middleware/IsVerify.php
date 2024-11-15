@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class IsAdmin
+class IsVerify
 {
     /**
      * Handle an incoming request.
@@ -18,12 +18,10 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-
-        if (Auth::check() && Auth::user()->roles->contains('name', 'admin')) {
+        if (Auth::check() && Auth::user()->verified==1) {
             return $next($request);
         }
 
-
-        return redirect(RouteServiceProvider::HOME)->with('error','You are not an Admin!');
+        return redirect(RouteServiceProvider::HOME)->with('error','You are not a verified!');
     }
 }
