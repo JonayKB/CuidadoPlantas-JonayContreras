@@ -29,6 +29,7 @@ return new class extends Migration {
             ['name' => 'Harvesting'],
             ['name' => 'Plant Identification'],
             ['name' => 'Toxicity and Safety'],
+            ['name' => 'Other'],
         ]);
 
 

@@ -29,6 +29,7 @@ return new class extends Migration {
             ['name' => 'Lichens'],
             ['name' => 'Flowering Plants'],
             ['name' => 'Non-Flowering Plants'],
+            ['name' => 'Other'],
         ]);
 
     }
