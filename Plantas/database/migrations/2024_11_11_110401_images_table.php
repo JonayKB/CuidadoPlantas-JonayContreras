@@ -10,8 +10,8 @@ return new class extends Migration {
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('path', 50);
-            $table->foreignId('post_id')->constrained('posts','post_id');
+            $table->string('path', 150);
+            $table->foreignId('post_id')->constrained('posts','post_id')->onDelete('cascade');
             $table->softDeletes();
         });
         DB::table('images')->insert([

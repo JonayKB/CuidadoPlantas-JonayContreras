@@ -22,6 +22,11 @@
                     @if (auth()->user()->roles->contains('name', 'admin'))
                         <a href="{{ url('/dashboard') }}" class="btn btn-outline-secondary fw-semibold me-2">Dashboard</a>
                     @endif
+
+                    @if (auth()->user()->roles->contains('name', 'user'))
+                        <a href="{{ route('posts.create') }}" class="fw-semibold me-2"><i
+                                class="bi bi-plus-circle-fill align-middle text-dark h2"></i></a>
+                    @endif
                     <!-- Dropdown para el usuario autenticado -->
                     <div class="dropdown d-inline">
                         <button class="btn btn-outline-secondary dropdown-toggle fw-semibold" type="button"
@@ -100,6 +105,42 @@
                     @endif
                     <div class="card-footer text-muted">
                         Posted on {{ $post->created_at->format('F d, Y') }}
+                        @auth
+                            @if (auth()->user()->roles->contains('name', 'user'))
+                                <!-- Botón de Reportar que activa el Modal -->
+                                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#reportModal"
+                                    class="fw-semibold me-2 badge bg-danger">Report</a>
+                            @endif
+                        @endauth
+
+                        <!-- Modal de Confirmación de Reporte -->
+                        <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="reportModalLabel">Are you sure you want to report
+                                            this post?</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Please confirm that you want to report this post. This action cannot be
+                                            undone.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cancel</button>
+                                        <form action="{{ route('posts.report') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="post_id" value="{{ $post->post_id }}">
+                                            <button type="submit" class="btn btn-danger">Report</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

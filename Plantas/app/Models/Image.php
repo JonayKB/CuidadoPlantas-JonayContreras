@@ -10,7 +10,7 @@ class Image extends Model
     use SoftDeletes;
     public $timestamps = false;
     protected $table = 'images';
-    protected $fillable = ['path'];
+    protected $fillable = ['path','post_id'];
 
 
 

@@ -26,7 +26,7 @@
                     @endif
 
                     @if (auth()->user()->roles->contains('name', 'user'))
-                    <a href="{{ route('posts.create') }}" class="fw-semibold me-2"><i class="bi bi-plus-circle-fill align-middle text-dark h2"></i></a>
+                    <a href="{{ route('home') }}" class="fw-semibold me-2"><i class="bi bi-arrow-90deg-left align-middle text-dark h2"></i></a>
                 @endif
                     <!-- Dropdown para el usuario autenticado -->
                     <div class="dropdown d-inline">
@@ -54,8 +54,37 @@
         @endif
 
         <div class="container">
-
-
+            <form action="/postCreate" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" required></textarea>
+                </div>
+                <div class="row mb-5">
+                    <div class="col">
+                        <select class="form-select" id="filterSelect" name="category_id" required>
+                            <option selected value="any" disabled>Choose category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="form-select" id="filterSelect" name="plant_id" required>
+                            <option selected value="any" disabled>Choose plant</option>
+                            @foreach ($plants as $plant)
+                                <option value="{{ $plant->plant_id }}">{{ $plant->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <input type="file" name="images[]" multiple>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <input type="hidden" name="user_id" value={{Auth::id()}}>
+            </form>
         </div>
 
 

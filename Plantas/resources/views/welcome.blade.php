@@ -12,6 +12,8 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body class="bg-light text-dark">
@@ -22,6 +24,10 @@
                     @if (auth()->user()->roles->contains('name', 'admin'))
                         <a href="{{ url('/dashboard') }}" class="btn btn-outline-secondary fw-semibold me-2">Dashboard</a>
                     @endif
+
+                    @if (auth()->user()->roles->contains('name', 'user'))
+                    <a href="{{ route('posts.create') }}" class="fw-semibold me-2"><i class="bi bi-plus-circle-fill align-middle text-dark h2"></i></a>
+                @endif
                     <!-- Dropdown para el usuario autenticado -->
                     <div class="dropdown d-inline">
                         <button class="btn btn-outline-secondary dropdown-toggle fw-semibold" type="button"

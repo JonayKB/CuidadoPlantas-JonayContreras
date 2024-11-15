@@ -36,7 +36,10 @@ Route::post('filter', [PostController::class, 'filter'])->name('posts.filter');
 Route::middleware(['auth','user'])->group(function (){
     Route::delete('post/{id}', [PostController::class, 'delete'])->name('posts.remove');
     Route::get('postEdit/{id}', [PostController::class, 'edit'])->name('posts.edit');
-    Route::post('/post/addComment/{post_id}',[CommentController::class,'addComment'])->name('comment.add');
+    Route::post('post/addComment/{post_id}',[CommentController::class,'addComment'])->name('comment.add');
+    Route::get('postCreate', [PostController::class, 'getView'])->name('posts.create');
+    Route::post('postCreate', [PostController::class, 'create'])->name('posts.create');
+    Route::post('reportPost',[PostController::class,'report'])->name('posts.report');
 });
 
 

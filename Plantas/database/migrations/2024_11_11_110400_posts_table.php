@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->text('description');
             $table->foreignId('plant_id')->constrained('plants', 'plant_id')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('set null');
             $table->integer('reports')->default(0);
             $table->timestamps();
             $table->softDeletes();
