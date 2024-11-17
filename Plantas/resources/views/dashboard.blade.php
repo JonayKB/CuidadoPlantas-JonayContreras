@@ -22,14 +22,9 @@
             <div class="fixed-top top-0 text-end end-0 z-2">
                 @auth
                     @if (auth()->user()->roles->contains('name', 'admin'))
-                        <a href="{{ route('home') }}"
-                            class="btn btn-outline-secondary fw-semibold mt-3 mr-3">Home</a>
+                        <a href="{{ route('home') }}" class="btn btn-outline-secondary fw-semibold mt-3 mr-3">Home</a>
                     @endif
 
-                    @if (auth()->user()->roles->contains('name', 'user'))
-                        <a href="{{ route('posts.create') }}" class="fw-semibold"><i
-                                class="bi bi-plus-circle-fill align-middle text-dark h2 mt-3 pt-3"></i></a>
-                    @endif
                     <!-- Dropdown para el usuario autenticado -->
                     <div class="dropdown d-inline">
                         <button class="btn btn-outline-secondary dropdown-toggle fw-semibold mt-3 mx-3" type="button"
@@ -56,14 +51,163 @@
             </div>
         @endif
 
-        <div class="container">
+        <div class="container-fluid">
+            @if (session('message'))
+                <div class="alert alert-success alert-dismissible fade show">
+                    {{ session('message') }}
+                </div>
+            @endif
+            <div class="row flex-nowrap">
+                <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-white border border-3">
+                    <div
+                        class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                        <a href="/"
+                            class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-decoration-none">
+                            <span class="fs-5 d-none d-sm-inline">Dashboard</span>
+                        </a>
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+                            id="menu">
+                            <li>
+                                <a href="/dashboard" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Users</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/dashboardPosts" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Posts</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/dashboardCategories" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-people"></i> <span
+                                        class="ms-1 d-none d-sm-inline">Categories</span> </a>
+                            </li>
+                            <li>
+                                <a href="/dashboardPlants" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Plants</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/dashboardVerification" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Need
+                                        Verification</span> </a>
+                            </li>
+                            <li>
+                                <a href="/dashboardReports" class="nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Reports</span>
+                                </a>
+                            </li>
 
+                        </ul>
+                        <hr>
+
+                    </div>
+                </div>
+                <div class="col py-3">
+                    <div class="table-responsive">
+                        <table class="table table-primary table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Created Date</th>
+                                    <th scope="col">Verified</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($users as $user)
+                                    <tr>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->created_at }}</td>
+                                        <td>{{ $user->verified ? "True" : "False" }}</td>
+
+                                        <td>
+                                            @if (!$trash)
+                                            @if (Auth::user()->id != $user->id)
+                                                <!-- Edit Button -->
+                                                <a href="{{ route('users.edit', $user->id) }}"
+                                                    class="btn btn-sm btn-primary">Edit</a>
+
+                                                <!-- Delete Button with Modal Trigger -->
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteUserModal{{ $user->id }}">
+                                                    Delete
+                                                </button>
+                                            @endif
+                                            @else
+                                            <!-- Restore Button -->
+                                            <a href="{{ route('users.restore', $user->id) }}"
+                                                class="btn btn-sm btn-success">Restore</a>
+                                            @endif
+
+                                            <!-- Delete Modal for Each User -->
+                                            <div class="modal fade" id="deleteUserModal{{ $user->id }}"
+                                                tabindex="-1"
+                                                aria-labelledby="deleteUserModalLabel{{ $user->id }}"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title"
+                                                                id="deleteUserModalLabel{{ $user->id }}">Delete
+                                                                User</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Are you sure you want to delete
+                                                            <strong>{{ $user->name }}</strong>? This action cannot be
+                                                            undone.
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Cancel</button>
+                                                            <form method="POST"
+                                                                action="{{ route('users.delete', $user->id) }}">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="btn btn-danger">Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="position-absolute bottom-0 end-0 m-5">
+            @if (!$trash)
+                <div class="btn-group">
+                    <a href="{{ route('users.trash') }}" class="btn btn-primary"><i class="bi bi-trash-fill"></i></a>
+                </div>
+            @else
+                <div class="btn-group">
+                    <a href="{{ route('dashboard') }}" class="btn btn-primary">Original</a>
+                </div>
+            @endif
 
         </div>
 
 
-        <!-- Bootstrap Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    </div>
+
+
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

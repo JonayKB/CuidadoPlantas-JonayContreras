@@ -22,14 +22,9 @@
             <div class="fixed-top top-0 text-end end-0 z-2">
                 @auth
                     @if (auth()->user()->roles->contains('name', 'admin'))
-                        <a href="{{ url('/dashboard') }}"
-                            class="btn btn-outline-secondary fw-semibold mt-3 mr-3">Dashboard</a>
+                        <a href="{{ route('home') }}" class="btn btn-outline-secondary fw-semibold mt-3 mr-3">Home</a>
                     @endif
 
-                    @if (auth()->user()->roles->contains('name', 'user'))
-                        <a href="{{ route('home') }}" class="fw-semibold"><i
-                                class="bi bi-arrow-left align-middle text-dark h2 mt-3 pt-3"></i></a>
-                    @endif
                     <!-- Dropdown para el usuario autenticado -->
                     <div class="dropdown d-inline">
                         <button class="btn btn-outline-secondary dropdown-toggle fw-semibold mt-3 mx-3" type="button"
@@ -57,46 +52,48 @@
         @endif
 
         <div class="container">
-            <form action="/postCreate" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('users.update', $user->id) }}" method="post">
                 @csrf
+                @method('PATCH')
                 <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" required>
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description" required></textarea>
-                </div>
-                <div class="row mb-5">
-                    <div class="col">
-                        <select class="form-select" id="filterSelect" name="category_id" required>
-                            <option selected value="any" disabled>Choose category</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col">
-                        <select class="form-select" id="filterSelect" name="plant_id" required>
-                            <option selected value="any" disabled>Choose plant</option>
-                            @foreach ($plants as $plant)
-                                <option value="{{ $plant->plant_id }}">{{ $plant->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="row">
-                        <div class="col mt-3">
-                            <label for="images" class="form-label">Images:</label>
-                            <input class="form-control mb-5" type="file" id="images" name="images[]" multiple required>
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name"
+                        value={{$user->name}}>
+                    @error('name')
+                        <div class="invalid-feedback">
+                            {{ $message }}
                         </div>
-                    </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <input type="hidden" name="user_id" value={{ Auth::id() }}>
-                    </div>
-
-
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                        value={{$user->email}}>
+                    @error('email')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password">
+                    @error('password')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                    <div class="form-text">Leave this field blank if you don't want to change your password.</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+                <a href="{{ route('dashboard') }}" class="float-end btn btn-danger">Back to Home</a>
             </form>
+
+
+
+
         </div>
+
 
 
         <!-- Bootstrap Bundle with Popper -->

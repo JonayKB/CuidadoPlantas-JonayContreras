@@ -14,7 +14,6 @@ class SwitchDatabaseIfPrimaryFails
 
             DB::connection('mysql')->getPdo();
         } catch (\PDOException $e) {
-            dd($e);
             if ($e->getCode() == 2002) {
                 DB::reconnect('sqliteLocal');
 

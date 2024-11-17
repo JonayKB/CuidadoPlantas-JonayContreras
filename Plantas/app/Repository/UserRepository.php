@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements ICrud
 {
+    public final const AMOUNT_PER_PAGE = 10;
+
     public string $connection1 = "mysql";
     public string $connection2 = "sqliteLocal";
 
@@ -24,7 +26,19 @@ class UserRepository implements ICrud
         }
         return $dto;
     }
-    public function findByEmail($email){
+    public function findByIdWithTrash(int $id): object | null
+    {
+        $dto = null;
+        try {
+            $dto = User::on($this->connection1)->withTrashed()->find($id);
+        } catch (Exception $e) {
+
+            $dto = User::on($this->connection2)->withTrashed()->find($id);
+        }
+        return $dto;
+    }
+    public function findByEmail($email)
+    {
         $dto = null;
         try {
             $dto = User::on($this->connection1)->where('email', $email)->first();
@@ -43,7 +57,8 @@ class UserRepository implements ICrud
         }
         return $dtos;
     }
-    public function create(Request $request): object | null{
+    public function create(Request $request): object | null
+    {
         $rolRepository = new RolRepository();
         if (app()->runningUnitTests()) {
             $rolRepository->setTestMode();
@@ -52,26 +67,24 @@ class UserRepository implements ICrud
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-           'verified' => false,
+            'verified' => false,
         ]);
         $rol = $rolRepository->findById(1);
         $user->setConnection($this->connection1)->save();
         $user->setConnection($this->connection1)->roles()->attach($rol);
         $user2 = new User([
-            'id'=>$user->id,
-            'name'=>$user->name,
-            'email'=>$user->email,
-            'password'=>$user->password,
-           'verified'=>$user->verified,
-           'remember_token'=>$user->remember_token,
-           'created_at'=>$user->created_at,
-           'updated_at'=>$user->updated_at,
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'password' => $user->password,
+            'verified' => $user->verified,
+            'remember_token' => $user->remember_token,
+            'created_at' => $user->created_at,
+            'updated_at' => $user->updated_at,
         ]);
         $user2->setConnection($this->connection2)->save();
         $user2->setConnection($this->connection2)->roles()->attach($rol);
         return $user;
-
-
     }
     public function save(object $dto): object | null
     {
@@ -108,6 +121,41 @@ class UserRepository implements ICrud
             return true;
         }
         return true;
+    }
+    public function getOnlyTrash()
+    {
+        $dtos = [];
+        try {
+            $dtos = User::on($this->connection1)->onlyTrashed()->paginate();
+        } catch (Exception $e) {
+            $dtos = User::on($this->connection2)->onlyTrashed()->paginate();
+        }
+        return $dtos;
+    }
+    public function restore($id): bool
+    {
+        $dto =$this->findByIdWithTrash($id);
+        if ($dto) {
+            try {
+                $dto->setConnection($this->connection1)->restore();
+                $dto->setConnection($this->connection2)->restore();
+            } catch (Exception $e) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public function getPagination()
+    {
+        $dtos = [];
+        try {
+            $dtos = User::on($this->connection1)->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE);
+        } catch (Exception $e) {
+            $dtos = User::on($this->connection2)->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE);
+        }
+        return $dtos;
     }
 
     public function setTestMode()

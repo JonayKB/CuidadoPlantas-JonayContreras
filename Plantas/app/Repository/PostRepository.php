@@ -69,6 +69,28 @@ class PostRepository implements ICrud
         }
         return true;
     }
+    public function getOnlyTrash(){
+        $dtos = [];
+        try {
+            $dtos = Post::onlyTrashed()->on($this->connection1)->get();
+        } catch (Exception $e) {
+            $dtos = Post::onlyTrashed()->on($this->connection2)->get();
+        }
+        return $dtos;
+    }
+    public function restore($id): bool{
+        $dto = $this->findById($id);
+        if ($dto) {
+            try {
+                $dto->setConnection($this->connection1)->restore();
+                $dto->setConnection($this->connection2)->restore();
+            } catch (Exception $e) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
 
     public function setTestMode()
     {
@@ -79,9 +101,9 @@ class PostRepository implements ICrud
     {
         $dtos = [];
         try {
-            $dtos = Post::on($this->connection1)->paginate(self::AMOUNT_PER_PAGE);
+            $dtos = Post::on($this->connection1)->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE);
         } catch (Exception $e) {
-            $dtos = Post::on($this->connection2)->paginate(self::AMOUNT_PER_PAGE);
+            $dtos = Post::on($this->connection2)->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE);
         }
         return $dtos;
     }

@@ -13,7 +13,8 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $postRepository = new PostRepository();
         $posts = $postRepository->getPagination();
         $plantRepository = new PlantRepository();
@@ -23,17 +24,19 @@ class PostController extends Controller
         $plantTypeRepository = new PlantTypeRepository();
         $plantTypes = $plantTypeRepository->findAll();
 
-        return view('welcome', compact('posts','plants','plantTypes','categories'));
+        return view('welcome', compact('posts', 'plants', 'plantTypes', 'categories'));
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $postRepository = new PostRepository();
         $post = $postRepository->findById($id);
 
         return view('showPost', compact('post'));
     }
 
-    public function filter(Request $request) {
+    public function filter(Request $request)
+    {
         $plantRepository = new PlantRepository();
         $plants = $plantRepository->findAll();
         $categoryRepository = new CategoryRepository();
@@ -60,50 +63,72 @@ class PostController extends Controller
                 $q->where('type_id', $request->input('plantType'));
             });
         }
-        $posts = $query->paginate(PostRepository::AMOUNT_PER_PAGE);
+        $posts = $query->orderByDesc('created_at')->paginate(PostRepository::AMOUNT_PER_PAGE);
 
         return view('welcome', compact('posts', 'plants', 'plantTypes', 'categories'));
     }
-    public function getView(){
+    public function getView()
+    {
         $plantRepository = new PlantRepository();
         $plants = $plantRepository->findAll();
         $categoryRepository = new CategoryRepository();
         $categories = $categoryRepository->findAll();
         $plantTypeRepository = new PlantTypeRepository();
         $plantTypes = $plantTypeRepository->findAll();
-        return view('createPost',compact('plants', 'plantTypes', 'categories'));
+        return view('createPost', compact('plants', 'plantTypes', 'categories'));
     }
-    public function create(Request $request){
+    public function create(Request $request)
+    {
 
         $postRepository = new PostRepository();
         $imageRepository = new ImageRepository();
 
         $user_id = $request->user_id;
-        $plant_id=$request->plant_id;
-        $category_id=$request->category_id;
-        $title=$request->title;
-        $description=$request->description;
+        $plant_id = $request->plant_id;
+        $category_id = $request->category_id;
+        $title = $request->title;
+        $description = $request->description;
         $images = $request->file('images');
+
+        if ($category_id = 'any')
+            $category_id = 16;
+
+        if ($plant_id = 'any')
+            $plant_id = 91;
 
 
 
         $post = new Post([
-            'user_id'=>$user_id,
-            'plant_id'=>$plant_id,
-            'category_id'=>$category_id,
-            'title'=>$title,
-            'description'=>$description,
+            'user_id' => $user_id,
+            'plant_id' => $plant_id,
+            'category_id' => $category_id,
+            'title' => $title,
+            'description' => $description,
         ]);
         $post = $postRepository->save($post);
         foreach ($images as $image) {
             $imagename = time() . '_' . $image->getClientOriginalName();
-            $image->move('storage',$imagename);
-            $imageModel = new Image(['path' => $imagename,'post_id'=>$post->post_id]);
+            $image->move('storage', $imagename);
+            $imageModel = new Image(['path' => $imagename, 'post_id' => $post->post_id]);
             $imageRepository->save($imageModel);
         }
-        return redirect()->route('posts.show',$post->post_id);
-
+        return redirect()->route('posts.show', $post->post_id);
     }
 
-
+    public function report(Request $request)
+    {
+        $postRepository = new PostRepository();
+        $post = $postRepository->findById($request->post_id);
+        $post->reports =  $post->reports + 1;
+        $postRepository->save($post);
+        return redirect()->route('posts.show', $post->post_id);
+    }
+    public function edit($post_id){
+        $postRepository = new PostRepository();
+        $post = $postRepository->findById($post_id);
+        if(auth()->user()->id != $post->user_id && auth()->user()->roles->contains('name', 'admin')){
+            return redirect('/')->with('error','Unathorized edition');
+        }
+        return view('editPost',compact('post'));
+    }
 }

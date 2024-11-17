@@ -67,6 +67,28 @@ class ImageRepository implements ICrud
         }
         return true;
     }
+    public function getOnlyTrash(){
+        $dtos = [];
+        try {
+            $dtos = Image::onlyTrashed()->on($this->connection1)->get();
+        } catch (Exception $e) {
+            $dtos = Image::onlyTrashed()->on($this->connection2)->get();
+        }
+        return $dtos;
+    }
+    public function restore($id): bool{
+        $dto = $this->findById($id);
+        if ($dto) {
+            try {
+                $dto->setConnection($this->connection1)->restore();
+                $dto->setConnection($this->connection2)->restore();
+            } catch (Exception $e) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
 
     public function setTestMode()
     {
