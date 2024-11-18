@@ -24,13 +24,23 @@ Route::get('/{page?}', [PostController::class,'index'])->name('home')
 
 Route::middleware(['auth','admin','verify'])->group(function (){
     Route::get('/dashboard', [UserController::class, 'indexDashboard'])->name('dashboard');
+    Route::get('/dashboardPosts', [PostController::class, 'indexDashboard'])->name('dashboardPosts');
+
+
     Route::get('/editUser/{id}', [UserController::class, 'edit'])->name('users.edit');
     Route::patch('/editUser/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/removeUser/{id}', [UserController::class, 'delete'])->name('users.delete');
     Route::get('/userTrash', [UserController::class, 'getTrash'])->name('users.trash');
     Route::get('/userRestore/{id}', [UserController::class, 'restore'])->name('users.restore');
+    Route::get('/dashboardVerification', [UserController::class, 'getNotVerified'])->name('users.verify');
+    Route::get('/userVerify/{id}', [UserController::class, 'verifyUser'])->name('users.verify');
 
-
+    Route::get('/postTrash', [PostController::class, 'getTrash'])->name('posts.trash');
+    Route::get('/postRestore/{id}', [PostController::class, 'restore'])->name('posts.restore');
+    Route::delete('/removePost/{id}', [PostController::class, 'delete'])->name('posts.delete');
+    Route::get('/editPost/{id}', [PostController::class, 'edit'])->name('posts.edit');
+    Route::patch('/editPost/{id}', [PostController::class, 'update'])->name('posts.update');
+    Route::get('/dashboardReports', [PostController::class, 'getReportedPosts'])->name('posts.reported');
 
 });
 Route::middleware('auth')->group(function () {

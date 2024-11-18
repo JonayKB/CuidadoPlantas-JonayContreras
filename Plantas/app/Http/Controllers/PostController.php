@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    public function indexDashboard(){
+        $trash = false;
+        $postRepository = new PostRepository();
+        $posts = $postRepository->getPagination();
+        return view('dashboardPosts', compact('posts','trash'));
+    }
     public function index()
     {
         $postRepository = new PostRepository();
@@ -130,5 +136,27 @@ class PostController extends Controller
             return redirect('/')->with('error','Unathorized edition');
         }
         return view('editPost',compact('post'));
+    }
+    public function getTrash(){
+        $trash = true;
+        $postRepository = new PostRepository();
+        $posts = $postRepository->getOnlyTrash();
+        return view('dashboardPosts', compact('posts','trash'));
+    }
+    public function restore($post_id){
+        $postRepository = new PostRepository();
+        $postRepository->restore($post_id);
+        return redirect('postTrash')->with('message', 'Post restored correctly');
+    }
+    public function delete($post_id){
+        $postRepository = new PostRepository();
+        $postRepository->delete($post_id);
+        return redirect()->route('dashboard')->with('message', 'Post deleted correctly');
+    }
+    public function getReportedPosts(){
+        $trash = false;
+        $postRepository = new PostRepository();
+        $posts = $postRepository->getReportedPosts();
+        return view('dashboardPosts', compact('posts','trash'));
     }
 }

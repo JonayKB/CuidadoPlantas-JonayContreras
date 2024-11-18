@@ -69,14 +69,14 @@
                             id="menu">
                             <li>
                                 <a href="/dashboard"
-                                    class="nav-link align-middle {{ Request::is('dashboard')||Request::is('userTrash') ? 'active' : '' }}">
+                                    class="nav-link align-middle {{ Request::is('dashboard') ? 'active' : '' }}">
                                     <i class="fs-4 bi-people"></i>
                                     <span class="ms-1 d-none d-sm-inline">Users</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="/dashboardPosts"
-                                    class="nav-link align-middle {{ Request::is('dashboardPosts') ? 'active' : '' }}">
+                                    class="nav-link align-middle {{ Request::is('dashboardPosts')||Request::is('postTrash') ? 'active' : '' }}">
                                     <i class="fs-4 bi-people"></i>
                                     <span class="ms-1 d-none d-sm-inline">Posts</span>
                                 </a>
@@ -113,76 +113,74 @@
                         <hr>
                     </div>
                 </div>
-
                 <div class="col py-3 mt-5">
                     <div class="table-responsive">
-                        <table class="table table-primary table-striped table-hover">
+                        <table class="table table-light table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">User</th>
                                     <th scope="col">Created Date</th>
-                                    <th scope="col">Verified</th>
+                                    <th scope="col">Plant</th>
+                                    <th scope="col">Plant Type</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Reports</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $user)
+                                @foreach ($posts as $post)
                                     <tr>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->created_at }}</td>
-                                        <td>{{ $user->verified ? 'True' : 'False' }}</td>
+                                        <td>{{ $post->title }}</td>
+                                        <td>{{ $post->user->name }}</td>
+                                        <td>{{ $post->created_at }}</td>
+                                        <td>{{ $post->plant->name }}</td>
+                                        <td>{{ $post->plant->type->name }}</td>
+                                        <td>{{ $post->category->name }}</td>
+                                        <td>{{ $post->reports }}</td>
 
                                         <td>
                                             @if (!$trash)
-                                                @if (Auth::user()->id != $user->id)
-                                                    <!-- Edit Button -->
-                                                    <a href="{{ route('users.edit', $user->id) }}"
-                                                        class="btn btn-sm btn-primary">Edit</a>
+                                                <!-- Edit Button -->
+                                                <a href="{{ route('posts.edit', $post->post_id) }}"
+                                                    class="btn btn-sm btn-primary">Edit</a>
 
-                                                    <!-- Delete Button with Modal Trigger -->
-                                                    <button type="button" class="btn btn-sm btn-danger"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#deleteUserModal{{ $user->id }}">
-                                                        Delete
-                                                    </button>
-                                                @endif
+                                                <!-- Delete Button with Modal Trigger -->
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deletePostModal{{ $post->post_id }}">
+                                                    Delete
+                                                </button>
                                             @else
                                                 <!-- Restore Button -->
-                                                <a href="{{ route('users.restore', $user->id) }}"
-                                                    class="btn btn-sm btn-success">Restore</a>
-                                            @endif
-                                            @if ($user->verified == false)
-                                                <!-- Verify Button -->
-                                                <a href="{{ route('users.verify', $user->id) }}"
-                                                    class="btn btn-sm btn-primary">Verify</a>
+                                                <a href="{{ route('posts.restore', $post->post_id) }}"
+                                                    class="btn btn-sm btn-primary">Restore</a>
                                             @endif
 
-                                            <!-- Delete Modal for Each User -->
-                                            <div class="modal fade" id="deleteUserModal{{ $user->id }}"
+                                            <!-- Delete Modal for Each Post -->
+                                            <div class="modal fade" id="deletePostModal{{ $post->post_id }}"
                                                 tabindex="-1"
-                                                aria-labelledby="deleteUserModalLabel{{ $user->id }}"
+                                                aria-labelledby="deletePostModalLabel{{ $post->post_id }}"
                                                 aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title"
-                                                                id="deleteUserModalLabel{{ $user->id }}">Delete
-                                                                User</h5>
+                                                                id="deletePostModalLabel{{ $post->post_id }}">Delete
+                                                                Post</h5>
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            Are you sure you want to delete
-                                                            <strong>{{ $user->name }}</strong>? This action cannot be
+                                                            Are you sure you want to delete the post titled
+                                                            <strong>{{ $post->title }}</strong>? This action cannot be
                                                             undone.
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
                                                                 data-bs-dismiss="modal">Cancel</button>
                                                             <form method="POST"
-                                                                action="{{ route('users.delete', $user->id) }}">
+                                                                action="{{ route('posts.delete', $post->post_id) }}">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit"
@@ -192,6 +190,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -203,15 +202,15 @@
         </div>
 
         <div class="position-absolute bottom-0 end-0 m-5">
-            @if (Request::is('dashboard') || Request::is('userTrash'))
+            @if (Request::is('dashboardPosts') || Request::is('postTrash'))
                 @if (!$trash)
                     <div class="btn-group">
-                        <a href="{{ route('users.trash') }}" class="btn btn-primary"><i
+                        <a href="{{ route('posts.trash') }}" class="btn btn-primary"><i
                                 class="bi bi-trash-fill"></i></a>
                     </div>
                 @else
                     <div class="btn-group">
-                        <a href="{{ route('dashboard') }}" class="btn btn-primary">Original</a>
+                        <a href="{{ route('dashboardPosts') }}" class="btn btn-primary">Original</a>
                     </div>
                 @endif
             @endif

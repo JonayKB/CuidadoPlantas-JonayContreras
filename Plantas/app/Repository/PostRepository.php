@@ -25,6 +25,17 @@ class PostRepository implements ICrud
         }
         return $dto;
     }
+    public function findByIdWithTrash(int $id): object | null
+    {
+        $dto = null;
+        try {
+            $dto = Post::on($this->connection1)->withTrashed()->find($id);
+        } catch (Exception $e) {
+
+            $dto = Post::on($this->connection2)->withTrashed()->find($id);
+        }
+        return $dto;
+    }
     public function findAll(): Collection
     {
         $dtos = [];
@@ -72,24 +83,35 @@ class PostRepository implements ICrud
     public function getOnlyTrash(){
         $dtos = [];
         try {
-            $dtos = Post::onlyTrashed()->on($this->connection1)->get();
+            $dtos = Post::on($this->connection1)->onlyTrashed()->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE+10);
         } catch (Exception $e) {
-            $dtos = Post::onlyTrashed()->on($this->connection2)->get();
+            $dtos = Post::on($this->connection1)->onlyTrashed()->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE+10);
         }
         return $dtos;
     }
     public function restore($id): bool{
-        $dto = $this->findById($id);
+        $dto = $this->findByIdWithTrash($id);
         if ($dto) {
             try {
                 $dto->setConnection($this->connection1)->restore();
                 $dto->setConnection($this->connection2)->restore();
             } catch (Exception $e) {
+                dd($e);
                 return false;
             }
             return true;
         }
         return false;
+    }
+    public function getReportedPosts(){
+        $dtos = [];
+        try {
+            $dtos = Post::on($this->connection1)->where('reports', '>',0)->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE+10);
+        } catch (Exception $e) {
+            $dtos = Post::on($this->connection2)->where('reports', '>',0)->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE+10);
+
+        }
+        return $dtos;
     }
 
     public function setTestMode()

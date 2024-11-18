@@ -57,4 +57,17 @@ class UserController extends Controller
 
         return redirect()->route('dashboard')->with('message', 'User updated correctly');
     }
+
+    public function getNotVerified(){
+        $trash = false;
+        $userRepository = new UserRepository();
+        $users = $userRepository->getNotVerified();
+        return view('dashboard', compact('users','trash'));
+    }
+    public function verifyUser($id){
+
+        $userRepository = new UserRepository();
+        $userRepository->verify($id);
+        return redirect('dashboardVerification')->with('message', 'User verified correctly');
+    }
 }

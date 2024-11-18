@@ -126,9 +126,18 @@ class UserRepository implements ICrud
     {
         $dtos = [];
         try {
-            $dtos = User::on($this->connection1)->onlyTrashed()->paginate();
+            $dtos = User::on($this->connection1)->onlyTrashed()->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE);
         } catch (Exception $e) {
-            $dtos = User::on($this->connection2)->onlyTrashed()->paginate();
+            $dtos = User::on($this->connection2)->onlyTrashed()->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE);
+        }
+        return $dtos;
+    }
+    public function getNotVerified(){
+        $dtos = [];
+        try {
+            $dtos = User::on($this->connection1)->where('verified', false)->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE);
+        } catch (Exception $e) {
+            $dtos = User::on($this->connection2)->where('verified', false)->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE);
         }
         return $dtos;
     }
@@ -139,6 +148,20 @@ class UserRepository implements ICrud
             try {
                 $dto->setConnection($this->connection1)->restore();
                 $dto->setConnection($this->connection2)->restore();
+            } catch (Exception $e) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+    public function verify($id){
+        $dto = $this->findById($id);
+        if ($dto) {
+            $dto->verified = true;
+            try {
+                $dto->setConnection($this->connection1)->save();
+                $dto->setConnection($this->connection2)->save();
             } catch (Exception $e) {
                 return false;
             }
