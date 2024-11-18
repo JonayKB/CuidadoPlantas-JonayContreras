@@ -109,10 +109,10 @@
                                 <div class="card-header">
                                     {{ $post->title }}
                                     <div class="float-end">
-                                        <span class="badge bg-success">{{ $post->plant->name }}</span>
-                                        <span class="badge bg-dark">{{ $post->plant->type->name }}</span>
-                                        <span class="badge bg-primary">{{ $post->user->name }}</span>
-                                        <span class="badge bg-warning">{{ $post->category->name }}</span>
+                                        <span class="badge bg-success">{{ $post->plant?->name }}</span>
+                                        <span class="badge bg-dark">{{ $post->plant?->type->name }}</span>
+                                        <span class="badge bg-primary">{{ $post->user?->name }}</span>
+                                        <span class="badge bg-warning">{{ $post->category?->name }}</span>
                                         <span class="badge bg-danger">{{ $post->reports }}</span>
                                     </div>
                                     <div class="card-body">

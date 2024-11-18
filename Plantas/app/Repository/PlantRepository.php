@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class PlantRepository implements ICrud
 {
+    public final const AMOUNT_PER_PAGE = 10;
     public string $connection1 = "mysql";
     public string $connection2 = "sqliteLocal";
 
@@ -20,6 +21,17 @@ class PlantRepository implements ICrud
         } catch (Exception $e) {
 
             $dto = Plant::on($this->connection2)->find($id);
+        }
+        return $dto;
+    }
+    public function findByIdWithTrash(int $id): object | null
+    {
+        $dto = null;
+        try {
+            $dto = Plant::on($this->connection1)->withTrashed()->find($id);
+        } catch (Exception $e) {
+
+            $dto = Plant::on($this->connection2)->withTrashed()->find($id);
         }
         return $dto;
     }
@@ -69,22 +81,35 @@ class PlantRepository implements ICrud
         }
         return true;
     }
+    public function getPagination()
+    {
+        $dtos = [];
+        try {
+            $dtos = Plant::on($this->connection1)->paginate(self::AMOUNT_PER_PAGE);
+        } catch (Exception $e) {
+            $dtos = Plant::on($this->connection2)->paginate(self::AMOUNT_PER_PAGE);
+        }
+        return $dtos;
+    }
     public function getOnlyTrash(){
         $dtos = [];
         try {
-            $dtos = Plant::onlyTrashed()->on($this->connection1)->get();
+            $dtos = Plant::on($this->connection1)->onlyTrashed()->paginate(self::AMOUNT_PER_PAGE);
         } catch (Exception $e) {
-            $dtos = Plant::onlyTrashed()->on($this->connection2)->get();
+            dd($e);
+            $dtos = Plant::on($this->connection2)->onlyTrashed()->paginate(self::AMOUNT_PER_PAGE);
+
         }
         return $dtos;
     }
     public function restore($id): bool{
-        $dto = $this->findById($id);
+        $dto = $this->findByIdWithTrash($id);
         if ($dto) {
             try {
                 $dto->setConnection($this->connection1)->restore();
                 $dto->setConnection($this->connection2)->restore();
             } catch (Exception $e) {
+                dd($e);
                 return false;
             }
             return true;

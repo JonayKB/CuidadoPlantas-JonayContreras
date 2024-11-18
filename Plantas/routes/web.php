@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PlantController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -25,6 +26,8 @@ Route::get('/{page?}', [PostController::class, 'index'])->name('home')
 Route::middleware(['auth', 'admin', 'verify'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'indexDashboard'])->name('dashboard');
     Route::get('/dashboardPosts', [PostController::class, 'indexDashboard'])->name('dashboardPosts');
+    Route::get('/dashboardPlants', [PlantController::class, 'indexDashboard'])->name('dashboardPlants');
+
 
 
     Route::get('/editUser/{id}', [UserController::class, 'edit'])->name('users.edit');
@@ -40,6 +43,15 @@ Route::middleware(['auth', 'admin', 'verify'])->group(function () {
     Route::delete('/removePost/{id}', [PostController::class, 'delete'])->name('posts.delete');
     Route::get('/dashboardReports', [PostController::class, 'getReportedPosts'])->name('posts.reported');
     Route::get('/clearReports/{id}', [PostController::class, 'clearReports'])->name('posts.clear');
+
+    Route::get('/plantTrash', [PlantController::class, 'getTrash'])->name('plants.trash');
+    Route::get('/plantRestore/{id}', [PlantController::class, 'restore'])->name('plants.restore');
+    Route::delete('/removePlant/{id}', [PlantController::class, 'delete'])->name('plants.delete');
+    Route::get('/editPlant/{id}', [PlantController::class, 'edit'])->name('plants.edit');
+    Route::get('/createPlant', [PlantController::class, 'create'])->name('plants.create');
+
+
+
 
 });
 Route::middleware('auth')->group(function () {
