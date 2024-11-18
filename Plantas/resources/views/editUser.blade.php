@@ -85,6 +85,14 @@
                     @enderror
                     <div class="form-text">Leave this field blank if you don't want to change your password.</div>
                 </div>
+                <div class="mb-3">
+                    <select class="form-select" id="filterSelect" name="roles[]" multiple>
+                        @foreach ($roles as $rol)
+                            <option {{$user->roles->contains('name', $rol->name)? 'selected':''}} value="{{ $rol->id }}">{{ $rol->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Update Profile</button>
                 <a href="{{ route('dashboard') }}" class="float-end btn btn-danger">Back to Home</a>
             </form>

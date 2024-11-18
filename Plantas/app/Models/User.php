@@ -19,7 +19,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string $updated_at
  * @property string $email_verified_at
  * @property string $remember_token
- * @property Rol $role
+ * @property Rol[] $roles
  * @property Comment[] $comments
  * @property Post[] $posts
  */

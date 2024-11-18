@@ -69,7 +69,7 @@
                             id="menu">
                             <li>
                                 <a href="/dashboard"
-                                    class="nav-link align-middle {{ Request::is('dashboard')||Request::is('userTrash') ? 'active' : '' }}">
+                                    class="nav-link align-middle {{ Request::is('dashboard') || Request::is('userTrash') ? 'active' : '' }}">
                                     <i class="fs-4 bi-people"></i>
                                     <span class="ms-1 d-none d-sm-inline">Users</span>
                                 </a>
@@ -77,35 +77,35 @@
                             <li>
                                 <a href="/dashboardPosts"
                                     class="nav-link align-middle {{ Request::is('dashboardPosts') ? 'active' : '' }}">
-                                    <i class="fs-4 bi-people"></i>
+                                    <i class="bi bi-file-earmark-post fs-4"></i>
                                     <span class="ms-1 d-none d-sm-inline">Posts</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="/dashboardCategories"
                                     class="nav-link align-middle {{ Request::is('dashboardCategories') ? 'active' : '' }}">
-                                    <i class="fs-4 bi-people"></i>
+                                    <i class="bi bi-bookmark fs-4"></i>
                                     <span class="ms-1 d-none d-sm-inline">Categories</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="/dashboardPlants"
                                     class="nav-link align-middle {{ Request::is('dashboardPlants') ? 'active' : '' }}">
-                                    <i class="fs-4 bi-people"></i>
+                                    <i class="bi bi-flower2 fs-4"></i>
                                     <span class="ms-1 d-none d-sm-inline">Plants</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="/dashboardVerification"
                                     class="nav-link align-middle {{ Request::is('dashboardVerification') ? 'active' : '' }}">
-                                    <i class="fs-4 bi-people"></i>
+                                    <i class="bi bi-info-square fs-4"></i>
                                     <span class="ms-1 d-none d-sm-inline">Need Verification</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="/dashboardReports"
                                     class="nav-link align-middle {{ Request::is('dashboardReports') ? 'active' : '' }}">
-                                    <i class="fs-4 bi-people"></i>
+                                    <i class="bi bi-flag fs-4"></i>
                                     <span class="ms-1 d-none d-sm-inline">Reports</span>
                                 </a>
                             </li>
@@ -123,6 +123,7 @@
                                     <th scope="col">Email</th>
                                     <th scope="col">Created Date</th>
                                     <th scope="col">Verified</th>
+                                    <th scope="col">Roles</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -133,7 +134,7 @@
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->created_at }}</td>
                                         <td>{{ $user->verified ? 'True' : 'False' }}</td>
-
+                                        <td>{{ $user->roles->implode('name', ', ') }}</td>
                                         <td>
                                             @if (!$trash)
                                                 @if (Auth::user()->id != $user->id)

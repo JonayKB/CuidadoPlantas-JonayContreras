@@ -46,6 +46,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('postCreate', [PostController::class, 'getView'])->name('posts.create');
+
 });
 
 Route::get('post/{id}', [PostController::class, 'show'])->name(name: 'posts.show');
@@ -53,7 +56,6 @@ Route::post('filter', [PostController::class, 'filter'])->name('posts.filter');
 
 Route::middleware(['auth', 'user', 'verify'])->group(function () {
     Route::post('post/addComment/{post_id}', [CommentController::class, 'addComment'])->name('comment.add');
-    Route::get('postCreate', [PostController::class, 'getView'])->name('posts.create');
     Route::post('postCreate', [PostController::class, 'create'])->name('posts.create');
     Route::post('reportPost', [PostController::class, 'report'])->name('posts.report');
     Route::delete('postDelete/{id}', [PostController::class, 'deleteUser'])->name('postsUser.remove');
