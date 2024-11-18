@@ -141,6 +141,12 @@
 
                                         <td>
                                             @if (!$trash)
+                                                @if($post->reports>0 && Request::is('dashboardReports'))
+                                                <!-- Clear Reports Button -->
+                                                <a href="{{ route('posts.clear', $post->post_id) }}"
+                                                    class="btn btn-sm btn-success">Clear</a>
+
+                                                @endif
                                                 <!-- Edit Button -->
                                                 <a href="{{ route('posts.edit', $post->post_id) }}"
                                                     class="btn btn-sm btn-primary">Edit</a>
@@ -196,6 +202,8 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $posts->links('pagination::bootstrap-5') }}
+
                     </div>
                 </div>
             </div>

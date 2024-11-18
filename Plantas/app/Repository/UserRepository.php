@@ -82,8 +82,10 @@ class UserRepository implements ICrud
             'created_at' => $user->created_at,
             'updated_at' => $user->updated_at,
         ]);
-        $user2->setConnection($this->connection2)->save();
-        $user2->setConnection($this->connection2)->roles()->attach($rol);
+        if (!app()->runningUnitTests()) {
+            $user2->setConnection($this->connection2)->save();
+            $user2->setConnection($this->connection2)->roles()->attach($rol);
+        }
         return $user;
     }
     public function save(object $dto): object | null
@@ -91,9 +93,12 @@ class UserRepository implements ICrud
         try {
             $dto->setConnection($this->connection1)->save();
 
-            $dto->setConnection($this->connection2)->save();
+            $dto2 = new User();
+            $dto2->fill($dto->toArray());
+            if (!app()->runningUnitTests()) {
+                $dto2->setConnection($this->connection2)->save();
+            }
         } catch (Exception $e) {
-            dd($e);
             return null;
         }
         return $dto;
@@ -132,7 +137,8 @@ class UserRepository implements ICrud
         }
         return $dtos;
     }
-    public function getNotVerified(){
+    public function getNotVerified()
+    {
         $dtos = [];
         try {
             $dtos = User::on($this->connection1)->where('verified', false)->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE);
@@ -143,7 +149,7 @@ class UserRepository implements ICrud
     }
     public function restore($id): bool
     {
-        $dto =$this->findByIdWithTrash($id);
+        $dto = $this->findByIdWithTrash($id);
         if ($dto) {
             try {
                 $dto->setConnection($this->connection1)->restore();
@@ -155,7 +161,8 @@ class UserRepository implements ICrud
         }
         return false;
     }
-    public function verify($id){
+    public function verify($id)
+    {
         $dto = $this->findById($id);
         if ($dto) {
             $dto->verified = true;

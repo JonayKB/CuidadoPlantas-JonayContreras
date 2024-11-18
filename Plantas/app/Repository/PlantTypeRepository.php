@@ -37,7 +37,9 @@ class PlantTypeRepository implements ICrud
     {
         try {
             $dto->setConnection($this->connection1)->save();
-            $dto->setConnection($this->connection2)->save();
+            $dto2 = new PlantType();
+            $dto2->fill($dto->toArray());
+            $dto2->setConnection($this->connection2)->save();
         } catch (Exception $e) {
             return null;
         }

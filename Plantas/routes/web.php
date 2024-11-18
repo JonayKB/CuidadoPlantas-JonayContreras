@@ -17,12 +17,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{page?}', [PostController::class,'index'])->name('home')
-->where('page','[0-9]+');
+Route::get('/{page?}', [PostController::class, 'index'])->name('home')
+    ->where('page', '[0-9]+');
 
 
 
-Route::middleware(['auth','admin','verify'])->group(function (){
+Route::middleware(['auth', 'admin', 'verify'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'indexDashboard'])->name('dashboard');
     Route::get('/dashboardPosts', [PostController::class, 'indexDashboard'])->name('dashboardPosts');
 
@@ -38,9 +38,8 @@ Route::middleware(['auth','admin','verify'])->group(function (){
     Route::get('/postTrash', [PostController::class, 'getTrash'])->name('posts.trash');
     Route::get('/postRestore/{id}', [PostController::class, 'restore'])->name('posts.restore');
     Route::delete('/removePost/{id}', [PostController::class, 'delete'])->name('posts.delete');
-    Route::get('/editPost/{id}', [PostController::class, 'edit'])->name('posts.edit');
-    Route::patch('/editPost/{id}', [PostController::class, 'update'])->name('posts.update');
     Route::get('/dashboardReports', [PostController::class, 'getReportedPosts'])->name('posts.reported');
+    Route::get('/clearReports/{id}', [PostController::class, 'clearReports'])->name('posts.clear');
 
 });
 Route::middleware('auth')->group(function () {
@@ -52,14 +51,15 @@ Route::middleware('auth')->group(function () {
 Route::get('post/{id}', [PostController::class, 'show'])->name(name: 'posts.show');
 Route::post('filter', [PostController::class, 'filter'])->name('posts.filter');
 
-Route::middleware(['auth','user','verify'])->group(function (){
-    Route::delete('post/{id}', [PostController::class, 'delete'])->name('posts.remove');
-    Route::get('postEdit/{id}', [PostController::class, 'edit'])->name('posts.edit');
-    Route::post('post/addComment/{post_id}',[CommentController::class,'addComment'])->name('comment.add');
+Route::middleware(['auth', 'user', 'verify'])->group(function () {
+    Route::post('post/addComment/{post_id}', [CommentController::class, 'addComment'])->name('comment.add');
     Route::get('postCreate', [PostController::class, 'getView'])->name('posts.create');
     Route::post('postCreate', [PostController::class, 'create'])->name('posts.create');
-    Route::post('reportPost',[PostController::class,'report'])->name('posts.report');
+    Route::post('reportPost', [PostController::class, 'report'])->name('posts.report');
+    Route::delete('postDelete/{id}', [PostController::class, 'deleteUser'])->name('postsUser.remove');
+    Route::get('/editPost/{id}', [PostController::class, 'edit'])->name('posts.edit');
+    Route::patch('/editPost/{id}', [PostController::class, 'update'])->name('posts.update');
 });
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

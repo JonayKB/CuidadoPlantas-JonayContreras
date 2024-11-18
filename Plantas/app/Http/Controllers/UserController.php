@@ -38,9 +38,7 @@ class UserController extends Controller
     public function restore($id){
         $userRepository = new UserRepository();
         $userRepository->restore($id);
-        $trash = true;
-        $users = $userRepository->getOnlyTrash();
-        return view('dashboard',compact('users','trash'))->with('message', 'User restored correctly');
+        return redirect()->route('users.trash')->with('message', 'User restored correctly');
     }
     public function update(Request $request,$id){
         $userRepository = new UserRepository();

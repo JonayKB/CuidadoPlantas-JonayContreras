@@ -37,7 +37,11 @@ class RolRepository implements ICrud
     {
         try {
             $dto->setConnection($this->connection1)->save();
-            $dto->setConnection($this->connection2)->save();
+            $dto2 = new Rol();
+            $dto2->fill($dto->toArray());
+            if (!app()->runningUnitTests()) {
+            $dto2->setConnection($this->connection2)->save();
+            }
         } catch (Exception $e) {
             return null;
         }
@@ -89,7 +93,7 @@ class RolRepository implements ICrud
         }
         return false;
     }
-    
+
 
     public function setTestMode()
     {

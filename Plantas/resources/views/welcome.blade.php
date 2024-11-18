@@ -116,9 +116,11 @@
                                         <span class="badge bg-danger">{{ $post->reports }}</span>
                                     </div>
                                     <div class="card-body">
-                                        <img src="{{ asset('storage/' . $post->images[0]->path) }}"
-                                            alt="{{ $post->title }}" class="card-img-top img-fluid"
-                                            style="object-fit: contain; height: 30rem;">
+                                        @if (isset($post->images[0]))
+                                            <img src="{{ asset('storage/' . $post->images[0]->path) }}"
+                                                alt="{{ $post->title }}" class="card-img-top img-fluid"
+                                                style="object-fit: contain; height: 30rem;">
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +128,7 @@
                     </div>
                 @endforeach
             </div>
-            <div class="position-absolute bottom-0 start-50 translate-middle-x mb-3 align-items-center">
+            <div class="start-50 translate-middle-x mb-3 align-items-center">
                 {{ $posts->links('pagination::bootstrap-5') }}
             </div>
 

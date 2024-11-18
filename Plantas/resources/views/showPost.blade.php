@@ -55,7 +55,7 @@
         @endif
         <!-- Post -->
         <div class="container">
-            
+
             <div class="card mb-3 mt-5">
                 <div class="card-header">
                     {{ $post->title }}
@@ -99,7 +99,7 @@
                     <p class="card-text text-muted">{{ $post->description }}</p>
                     @if (Auth::check() && Auth::user()->id == $post->user_id)
                         <a href="{{ route('posts.edit', $post->post_id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('posts.remove', $post->post_id) }}" method="POST" class="d-inline">
+                        <form action="{{ route('postsUser.remove', $post->post_id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>
