@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Models\Category;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
-
+use Illuminate\Support\Facades\DB;
 
 class CategoryRepository implements ICrud
 {
@@ -27,6 +27,22 @@ class CategoryRepository implements ICrud
         } catch (Exception $e) {
 
             $dto = Category::on($this->connection2)->find($id);
+        }
+        return $dto;
+    }
+    /**
+     * Find with deleted cateogry
+     * @param int $id to find
+     * @return object|null
+     */
+    public function findByIdWithTrash(int $id): object | null
+    {
+        $dto = null;
+        try {
+            $dto = Category::on($this->connection1)->withTrashed()->find($id);
+        } catch (Exception $e) {
+
+            $dto = Category::on($this->connection2)->withTrashed()->find($id);
         }
         return $dto;
     }
@@ -95,6 +111,7 @@ class CategoryRepository implements ICrud
         }
         return true;
     }
+
     /**
      * Returns only deleted Categories
      * @return Collection|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Support\Collection
@@ -102,9 +119,10 @@ class CategoryRepository implements ICrud
     public function getOnlyTrash(){
         $dtos = [];
         try {
-            $dtos = Category::onlyTrashed()->on($this->connection1)->get();
+            $dtos = Category::on($this->connection1)->onlyTrashed()->paginate(self::AMOUNT_PER_PAGE);
         } catch (Exception $e) {
-            $dtos = Category::onlyTrashed()->on($this->connection2)->get();
+            $dtos = Category::on($this->connection2)->onlyTrashed()->paginate(self::AMOUNT_PER_PAGE);
+
         }
         return $dtos;
     }
@@ -114,7 +132,7 @@ class CategoryRepository implements ICrud
      * @return bool
      */
     public function restore($id): bool{
-        $dto = $this->findById($id);
+        $dto = $this->findByIdWithTrash($id);
         if ($dto) {
             try {
                 $dto->setConnection($this->connection1)->restore();

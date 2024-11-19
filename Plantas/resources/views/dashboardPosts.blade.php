@@ -131,13 +131,13 @@
                             <tbody>
                                 @foreach ($posts as $post)
                                     <tr>
-                                        <td>{{ $post->title }}</td>
-                                        <td>{{ $post->user->name }}</td>
-                                        <td>{{ $post->created_at }}</td>
-                                        <td>{{ $post->plant->name }}</td>
-                                        <td>{{ $post->plant->type->name }}</td>
-                                        <td>{{ $post->category->name }}</td>
-                                        <td>{{ $post->reports }}</td>
+                                        <td>{{ $post?->title }}</td>
+                                        <td>{{ $post?->user?->name }}</td>
+                                        <td>{{ $post?->created_at }}</td>
+                                        <td>{{ $post?->plant?->name }}</td>
+                                        <td>{{ $post?->plant?->type?->name }}</td>
+                                        <td>{{ $post?->category?->name }}</td>
+                                        <td>{{ $post?->reports }}</td>
 
                                         <td>
                                             @if (!$trash)
