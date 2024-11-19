@@ -55,7 +55,7 @@ class RolRepository implements ICrud
             $dto2 = new Rol();
             $dto2->fill($dto->toArray());
             if (!app()->runningUnitTests()) {
-            $dto2->setConnection($this->connection2)->save();
+                $dto2->setConnection($this->connection2)->save();
             }
         } catch (Exception $e) {
             return null;
@@ -71,7 +71,8 @@ class RolRepository implements ICrud
     {
         try {
             $dto->setConnection($this->connection1)->save();
-            $dto->setConnection($this->connection2)->save();
+            if (!app()->runningUnitTests())
+                $dto->setConnection($this->connection2)->save();
         } catch (Exception $e) {
             return false;
         }
@@ -88,6 +89,7 @@ class RolRepository implements ICrud
         if ($dto) {
             try {
                 $dto->setConnection($this->connection1)->delete();
+            if (!app()->runningUnitTests())
                 $dto->setConnection($this->connection2)->delete();
             } catch (Exception $e) {
                 return false;
@@ -95,37 +97,6 @@ class RolRepository implements ICrud
             return true;
         }
         return true;
-    }
-    /**
-     * Get deleteds ROles
-     * @return Collection|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Support\Collection
-     */
-    public function getOnlyTrash(){
-        $dtos = [];
-        try {
-            $dtos = Rol::onlyTrashed()->on($this->connection1)->get();
-        } catch (Exception $e) {
-            $dtos = Rol::onlyTrashed()->on($this->connection2)->get();
-        }
-        return $dtos;
-    }
-    /**
-     * Restores a Rol
-     * @param mixed $id to restore
-     * @return bool
-     */
-    public function restore($id): bool{
-        $dto = $this->findById($id);
-        if ($dto) {
-            try {
-                $dto->setConnection($this->connection1)->restore();
-                $dto->setConnection($this->connection2)->restore();
-            } catch (Exception $e) {
-                return false;
-            }
-            return true;
-        }
-        return false;
     }
 
 

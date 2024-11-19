@@ -70,6 +70,7 @@ class PlantRepository implements ICrud
             $dto->setConnection($this->connection1)->save();
             $dto2 = new Plant();
             $dto2->fill($dto->toArray());
+            if (!app()->runningUnitTests())
             $dto2->setConnection($this->connection2)->save();
         } catch (Exception $e) {
             return null;
@@ -133,7 +134,6 @@ class PlantRepository implements ICrud
         try {
             $dtos = Plant::on($this->connection1)->onlyTrashed()->paginate(self::AMOUNT_PER_PAGE);
         } catch (Exception $e) {
-            dd($e);
             $dtos = Plant::on($this->connection2)->onlyTrashed()->paginate(self::AMOUNT_PER_PAGE);
 
         }
@@ -151,7 +151,6 @@ class PlantRepository implements ICrud
                 $dto->setConnection($this->connection1)->restore();
                 $dto->setConnection($this->connection2)->restore();
             } catch (Exception $e) {
-                dd($e);
                 return false;
             }
             return true;

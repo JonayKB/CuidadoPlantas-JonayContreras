@@ -94,37 +94,7 @@ class CommentRepository implements ICrud
         }
         return true;
     }
-    /**
-     * Returns only deletes comments
-     * @return Collection|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Support\Collection
-     */
-    public function getOnlyTrash(){
-        $dtos = [];
-        try {
-            $dtos = Comment::onlyTrashed()->on($this->connection1)->get();
-        } catch (Exception $e) {
-            $dtos = Comment::onlyTrashed()->on($this->connection2)->get();
-        }
-        return $dtos;
-    }
-    /**
-     * Restores a deleted Comment
-     * @param mixed $id to deleted
-     * @return bool
-     */
-    public function restore($id): bool{
-        $dto = $this->findById($id);
-        if ($dto) {
-            try {
-                $dto->setConnection($this->connection1)->restore();
-                $dto->setConnection($this->connection2)->restore();
-            } catch (Exception $e) {
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
+    
 
     /**
      * Set Test mode

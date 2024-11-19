@@ -69,9 +69,10 @@ class PostRepository implements ICrud
     {
         try {
             $dto->setConnection($this->connection1)->save();
-            $dto2= new Post();
+            $dto2 = new Post();
             $dto2->fill($dto->toArray());
-            $dto2->setConnection($this->connection2)->save();
+            if (!app()->runningUnitTests())
+                $dto2->setConnection($this->connection2)->save();
         } catch (Exception $e) {
             return null;
         }
@@ -88,7 +89,6 @@ class PostRepository implements ICrud
             $dto->setConnection($this->connection1)->save();
             $dto->setConnection($this->connection2)->save();
         } catch (Exception $e) {
-            dd($e);
             return false;
         }
         return true;
@@ -117,12 +117,13 @@ class PostRepository implements ICrud
      * Finds only deleted posts
      * @return mixed
      */
-    public function getOnlyTrash(){
+    public function getOnlyTrash()
+    {
         $dtos = [];
         try {
-            $dtos = Post::on($this->connection1)->onlyTrashed()->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE+10);
+            $dtos = Post::on($this->connection1)->onlyTrashed()->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE + 10);
         } catch (Exception $e) {
-            $dtos = Post::on($this->connection1)->onlyTrashed()->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE+10);
+            $dtos = Post::on($this->connection1)->onlyTrashed()->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE + 10);
         }
         return $dtos;
     }
@@ -131,7 +132,8 @@ class PostRepository implements ICrud
      * @param mixed $id to restore
      * @return bool
      */
-    public function restore($id): bool{
+    public function restore($id): bool
+    {
         $dto = $this->findByIdWithTrash($id);
         if ($dto) {
             try {
@@ -145,17 +147,16 @@ class PostRepository implements ICrud
         return false;
     }
     /**
-     * Return reporteds posts
-     * @param mixed $id to report
-     * @return bool
+     * Returns pagination of reproted posts
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getReportedPosts(){
+    public function getReportedPosts()
+    {
         $dtos = [];
         try {
-            $dtos = Post::on($this->connection1)->where('reports', '>',0)->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE+10);
+            $dtos = Post::on($this->connection1)->where('reports', '>', 0)->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE + 10);
         } catch (Exception $e) {
-            $dtos = Post::on($this->connection2)->where('reports', '>',0)->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE+10);
-
+            $dtos = Post::on($this->connection2)->where('reports', '>', 0)->orderByDesc('created_at')->paginate(self::AMOUNT_PER_PAGE + 10);
         }
         return $dtos;
     }

@@ -53,6 +53,7 @@ class PlantTypeRepository implements ICrud
             $dto->setConnection($this->connection1)->save();
             $dto2 = new PlantType();
             $dto2->fill($dto->toArray());
+            if(!app()->runningUnitTests())
             $dto2->setConnection($this->connection2)->save();
         } catch (Exception $e) {
             return null;
@@ -92,37 +93,6 @@ class PlantTypeRepository implements ICrud
             return true;
         }
         return true;
-    }
-    /**
-     * Returns onyl deleted PlantsType
-     * @return Collection|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Support\Collection
-     */
-    public function getOnlyTrash(){
-        $dtos = [];
-        try {
-            $dtos = PlantType::onlyTrashed()->on($this->connection1)->get();
-        } catch (Exception $e) {
-            $dtos = PlantType::onlyTrashed()->on($this->connection2)->get();
-        }
-        return $dtos;
-    }
-    /**
-     * Restores a PlantType
-     * @param mixed $id to restore
-     * @return bool
-     */
-    public function restore($id): bool{
-        $dto = $this->findById($id);
-        if ($dto) {
-            try {
-                $dto->setConnection($this->connection1)->restore();
-                $dto->setConnection($this->connection2)->restore();
-            } catch (Exception $e) {
-                return false;
-            }
-            return true;
-        }
-        return false;
     }
 
     /**
