@@ -6,6 +6,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements ICrud
@@ -93,8 +94,18 @@ class UserRepository implements ICrud
         try {
             $dto->setConnection($this->connection1)->save();
 
-            $dto2 = new User();
-            $dto2->fill($dto->toArray());
+            $dto2 = new User([
+                'id' => $dto->id,
+                'name' => $dto->name,
+                'email' => $dto->email,
+                'password' => $dto->password,
+                'verified' => $dto->verified,
+                'remember_token' => $dto->remember_token,
+                'created_at' => $dto->created_at,
+                'updated_at' => $dto->updated_at,
+                'email_verified_at' => $dto->email_verified_at,
+                'deleted_at' => $dto->deleted_at,
+            ]);
             if (!app()->runningUnitTests()) {
                 $dto2->setConnection($this->connection2)->save();
             }
@@ -107,12 +118,29 @@ class UserRepository implements ICrud
     {
         try {
             $dto->setConnection($this->connection1)->save();
-            $dto->setConnection($this->connection2)->save();
+
+            $dto2 = new User([
+                'id' => $dto->id,
+                'name' => $dto->name,
+                'email' => $dto->email,
+                'password' => $dto->password,
+                'verified' => $dto->verified,
+                'remember_token' => $dto->remember_token,
+                'created_at' => $dto->created_at,
+                'updated_at' => $dto->updated_at,
+                'email_verified_at' => $dto->email_verified_at,
+                'deleted_at' => $dto->deleted_at,
+            ]);
+            if (!app()->runningUnitTests()) {
+                $dto2->setConnection($this->connection2)->save();
+            }
+            return true;
         } catch (Exception $e) {
             return false;
         }
-        return true;
     }
+
+
     public function delete($id): bool
     {
         $dto = $this->findById($id);
@@ -153,7 +181,22 @@ class UserRepository implements ICrud
         if ($dto) {
             try {
                 $dto->setConnection($this->connection1)->restore();
-                $dto->setConnection($this->connection2)->restore();
+
+                $dto2 = new User([
+                    'id' => $dto->id,
+                    'name' => $dto->name,
+                    'email' => $dto->email,
+                    'password' => $dto->password,
+                    'verified' => $dto->verified,
+                    'remember_token' => $dto->remember_token,
+                    'created_at' => $dto->created_at,
+                    'updated_at' => $dto->updated_at,
+                    'email_verified_at' => $dto->email_verified_at,
+                    'deleted_at' => $dto->deleted_at,
+                ]);
+                if (!app()->runningUnitTests()) {
+                    $dto2->setConnection($this->connection2)->restore();
+                }
             } catch (Exception $e) {
                 return false;
             }

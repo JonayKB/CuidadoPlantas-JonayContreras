@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Plant;
 use App\Repository\PlantRepository;
+use App\Repository\PlantTypeRepository;
 use Illuminate\Http\Request;
 
 class PlantController extends Controller
@@ -33,9 +35,30 @@ class PlantController extends Controller
     public function edit($id){
         $plantRepository = new PlantRepository();
         $plant = $plantRepository->findById($id);
-        return view('editPlant', compact('plant'));
+        $plantTypeRepository = new PlantTypeRepository();
+        $types = $plantTypeRepository->findAll();
+        return view('editPlant', compact('plant','types'));
     }
     public function create(){
-        return view('createPlant');
+        $plantTypeRepository = new PlantTypeRepository();
+        $types = $plantTypeRepository->findAll();
+        return view('createPlant',compact('types'));
+    }
+    public function createPlant(Request $request){
+        $plantRepository = new PlantRepository();
+        $plant = new Plant();
+        $plant->name = $request->name;
+        $plant->type_id = $request->type;
+        $plantRepository->save($plant);
+        return redirect()->route('dashboardPlants')->with('message', 'Plant created correctly');
+    }
+    public function update(Request $request){
+        $plantRepository = new PlantRepository();
+        $plant_id = $request->plant_id;
+        $plant = $plantRepository->findById($plant_id);
+        $plant->name = $request->name;
+        $plant->type_id = $request->type;
+        $plantRepository->save($plant);
+        return redirect()->route('dashboardPlants')->with('message', 'Plant updated correctly');
     }
 }

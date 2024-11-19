@@ -48,7 +48,10 @@ Route::middleware(['auth', 'admin', 'verify'])->group(function () {
     Route::get('/plantRestore/{id}', [PlantController::class, 'restore'])->name('plants.restore');
     Route::delete('/removePlant/{id}', [PlantController::class, 'delete'])->name('plants.delete');
     Route::get('/editPlant/{id}', [PlantController::class, 'edit'])->name('plants.edit');
+    Route::patch('/editPlant/{id}', [PlantController::class, 'update'])->name('plants.update');
+
     Route::get('/createPlant', [PlantController::class, 'create'])->name('plants.create');
+    Route::post('/createPlant', [PlantController::class, 'createPlant'])->name('plants.create');
 
 
 

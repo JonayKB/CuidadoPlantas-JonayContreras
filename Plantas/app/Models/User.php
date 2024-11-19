@@ -28,7 +28,7 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
-    public $fillable = ['name', 'email', 'password','verified', 'created_at', 'updated_at','email_verified_at','remember_token'];
+    public $fillable = ['id','name', 'email', 'password','verified', 'created_at', 'updated_at','email_verified_at','remember_token','deleted_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
