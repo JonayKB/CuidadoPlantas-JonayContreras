@@ -149,18 +149,30 @@ class UserRepository implements ICrud
      * @return bool
      */
     public function update(object $dto): bool
-    {
-        try {
-            $dto->setConnection($this->connection1)->save();
+{
+    try {
+        $dto->setConnection($this->connection1)->save();
 
-            if (!app()->runningUnitTests()) {
-                $dto->setConnection($this->connection2)->save();
-            }
-            return true;
-        } catch (Exception $e) {
-            return false;
+        if (!app()->runningUnitTests()) {
+            DB::connection($this->connection2)->table('users')->where('id', $dto->id)->update([
+                'name' => $dto->name,
+                'email' => $dto->email,
+                'password' => $dto->password,
+                'verified' => $dto->verified,
+                'remember_token' => $dto->remember_token,
+                'created_at' => $dto->created_at,
+                'updated_at' => $dto->updated_at,
+                'email_verified_at' => $dto->email_verified_at,
+                'deleted_at' => $dto->deleted_at,
+            ]);
         }
+
+        return true;
+    } catch (Exception $e) {
+        return false;
     }
+}
+
 
 
     /**
