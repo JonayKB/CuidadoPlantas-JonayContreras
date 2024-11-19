@@ -10,12 +10,21 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    /**
+     * Returns to admins user dashboard
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function indexDashboard(){
         $trash = false;
         $userRepository = new UserRepository();
         $users = $userRepository->getPagination();
         return view('dashboard', compact('users','trash'));
     }
+    /**
+     * Returns to edit user view
+     * @param mixed $id to edit
+     * @return mixed|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function edit($id){
         $userRepository = new UserRepository();
         $rolRepository = new RolRepository();
@@ -27,22 +36,42 @@ class UserController extends Controller
         return view('editUser',compact('user','roles'));
     }
 
+    /**
+     * Delete a user
+     * @param mixed $id to delete
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function delete($id){
         $userRepository = new UserRepository();
         $userRepository->delete($id);
         return redirect()->route('dashboard')->with('message', 'User deleted correctly');
     }
+    /**
+     * Returns to only deleted users to view
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function getTrash(){
         $trash = true;
         $userRepository = new UserRepository();
         $users = $userRepository->getOnlyTrash();
         return view('dashboard', compact('users','trash'));
     }
+    /**
+     * Restore a user
+     * @param mixed $id user id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function restore($id){
         $userRepository = new UserRepository();
         $userRepository->restore($id);
         return redirect()->route('users.trash')->with('message', 'User restored correctly');
     }
+    /**
+     * Updates a user
+     * @param Request $request request data
+     * @param mixed $id user id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request,$id){
         $userRepository = new UserRepository();
         $rolRepository = new RolRepository();
@@ -66,12 +95,21 @@ class UserController extends Controller
         return redirect()->route('dashboard')->with('message', 'User updated correctly');
     }
 
+    /**
+     * Returns only not verified users to view
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function getNotVerified(){
         $trash = false;
         $userRepository = new UserRepository();
         $users = $userRepository->getNotVerified();
         return view('dashboard', compact('users','trash'));
     }
+    /**
+     * Verifies a user
+     * @param mixed $id user id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function verifyUser($id){
 
         $userRepository = new UserRepository();

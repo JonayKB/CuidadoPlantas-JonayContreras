@@ -14,6 +14,11 @@ class PostRepository implements ICrud
     public string $connection1 = "mysql";
     public string $connection2 = "sqliteLocal";
 
+    /**
+     * Finds a Post
+     * @param int $id to find
+     * @return object|null
+     */
     public function findById(int $id): object | null
     {
         $dto = null;
@@ -25,6 +30,11 @@ class PostRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Finds a post with deleted posts
+     * @param int $id to find
+     * @return object|null
+     */
     public function findByIdWithTrash(int $id): object | null
     {
         $dto = null;
@@ -36,6 +46,10 @@ class PostRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Returns all posts
+     * @return Collection
+     */
     public function findAll(): Collection
     {
         $dtos = [];
@@ -46,6 +60,11 @@ class PostRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Saves a Post
+     * @param object $dto to save
+     * @return object|null
+     */
     public function save(object $dto): object | null
     {
         try {
@@ -58,6 +77,11 @@ class PostRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Updates a post
+     * @param object $dto to post
+     * @return bool
+     */
     public function update(object $dto): bool
     {
         try {
@@ -69,6 +93,11 @@ class PostRepository implements ICrud
         }
         return true;
     }
+    /**
+     * Deletes a Post
+     * @param mixed $id to delete
+     * @return bool
+     */
     public function delete($id): bool
     {
         $dto = $this->findById($id);
@@ -83,6 +112,11 @@ class PostRepository implements ICrud
         }
         return true;
     }
+
+    /**
+     * Finds only deleted posts
+     * @return mixed
+     */
     public function getOnlyTrash(){
         $dtos = [];
         try {
@@ -92,6 +126,11 @@ class PostRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Restores a deleted post
+     * @param mixed $id to restore
+     * @return bool
+     */
     public function restore($id): bool{
         $dto = $this->findByIdWithTrash($id);
         if ($dto) {
@@ -106,6 +145,11 @@ class PostRepository implements ICrud
         }
         return false;
     }
+    /**
+     * Return reporteds posts
+     * @param mixed $id to report
+     * @return bool
+     */
     public function getReportedPosts(){
         $dtos = [];
         try {
@@ -117,11 +161,19 @@ class PostRepository implements ICrud
         return $dtos;
     }
 
+    /**
+     * Set Test Mode
+     * @return void
+     */
     public function setTestMode()
     {
         $this->connection1 = "sqlite";
         $this->connection2 = "sqlite";
     }
+    /**
+     * Get Pagination
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public function getPagination()
     {
         $dtos = [];

@@ -13,6 +13,11 @@ class PlantRepository implements ICrud
     public string $connection1 = "mysql";
     public string $connection2 = "sqliteLocal";
 
+    /**
+     * Find a Plant
+     * @param int $id to find
+     * @return object|null
+     */
     public function findById(int $id): object | null
     {
         $dto = null;
@@ -24,6 +29,11 @@ class PlantRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Find with deleted plant
+     * @param int $id to find
+     * @return object|null
+     */
     public function findByIdWithTrash(int $id): object | null
     {
         $dto = null;
@@ -35,6 +45,10 @@ class PlantRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Find all plants
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function findAll(): Collection
     {
         $dtos = [];
@@ -45,6 +59,11 @@ class PlantRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Saves a plant
+     * @param object $dto to save
+     * @return object|null
+     */
     public function save(object $dto): object | null
     {
         try {
@@ -57,6 +76,11 @@ class PlantRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Updates a Plant
+     * @param object $dto to update
+     * @return bool
+     */
     public function update(object $dto): bool
     {
         try {
@@ -67,6 +91,11 @@ class PlantRepository implements ICrud
         }
         return true;
     }
+    /**
+     * Deletes a Plant
+     * @param mixed $id to delete
+     * @return bool
+     */
     public function delete($id): bool
     {
         $dto = $this->findById($id);
@@ -81,6 +110,10 @@ class PlantRepository implements ICrud
         }
         return true;
     }
+    /**
+     * Gets pagination
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public function getPagination()
     {
         $dtos = [];
@@ -91,6 +124,10 @@ class PlantRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Find all deleted plants
+     * @return mixed
+     */
     public function getOnlyTrash(){
         $dtos = [];
         try {
@@ -102,6 +139,11 @@ class PlantRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Restore a deleted plant
+     * @param mixed $id to restore
+     * @return bool
+     */
     public function restore($id): bool{
         $dto = $this->findByIdWithTrash($id);
         if ($dto) {
@@ -118,6 +160,9 @@ class PlantRepository implements ICrud
     }
 
 
+    /**
+     * Set test mode
+     */
     public function setTestMode()
     {
         $this->connection1 = "sqlite";

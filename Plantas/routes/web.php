@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\PostController;
@@ -27,6 +28,8 @@ Route::middleware(['auth', 'admin', 'verify'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'indexDashboard'])->name('dashboard');
     Route::get('/dashboardPosts', [PostController::class, 'indexDashboard'])->name('dashboardPosts');
     Route::get('/dashboardPlants', [PlantController::class, 'indexDashboard'])->name('dashboardPlants');
+    Route::get('/dashboardCategories', [CategoryController::class, 'indexDashboard'])->name('dashboardCategories');
+
 
 
 
@@ -49,9 +52,16 @@ Route::middleware(['auth', 'admin', 'verify'])->group(function () {
     Route::delete('/removePlant/{id}', [PlantController::class, 'delete'])->name('plants.delete');
     Route::get('/editPlant/{id}', [PlantController::class, 'edit'])->name('plants.edit');
     Route::patch('/editPlant/{id}', [PlantController::class, 'update'])->name('plants.update');
-
     Route::get('/createPlant', [PlantController::class, 'create'])->name('plants.create');
     Route::post('/createPlant', [PlantController::class, 'createPlant'])->name('plants.create');
+
+    Route::get('/categoryTrash', [CategoryController::class, 'getTrash'])->name('categories.trash');
+    Route::get('/categoryRestore/{id}', [CategoryController::class, 'restore'])->name('categories.restore');
+    Route::delete('/removeCategory/{id}', [CategoryController::class, 'delete'])->name('categories.delete');
+    Route::get('/editCategory/{id}', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::patch('/editCategory/{id}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::get('/createCategory', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('/createCategory', [CategoryController::class, 'createCategory'])->name('categories.create');
 
 
 

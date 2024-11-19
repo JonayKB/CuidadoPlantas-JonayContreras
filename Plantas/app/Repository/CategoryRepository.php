@@ -9,9 +9,16 @@ use Illuminate\Database\Eloquent\Collection;
 
 class CategoryRepository implements ICrud
 {
+    public final const AMOUNT_PER_PAGE = 10;
+
     public string $connection1 = "mysql";
     public string $connection2 = "sqliteLocal";
 
+    /**
+     * Finds a Category by id
+     * @param int $id to find
+     * @return object|null
+     */
     public function findById(int $id): object | null
     {
         $dto = null;
@@ -23,6 +30,10 @@ class CategoryRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Returns all Categories
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function findAll(): Collection
     {
         $dtos = [];
@@ -33,6 +44,11 @@ class CategoryRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Save an Category
+     * @param object $dto to save
+     * @return object|null
+     */
     public function save(object $dto): object | null
     {
         try {
@@ -45,6 +61,11 @@ class CategoryRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Updates an Category
+     * @param object $dto to update
+     * @return bool
+     */
     public function update(object $dto): bool
     {
         try {
@@ -55,6 +76,11 @@ class CategoryRepository implements ICrud
         }
         return true;
     }
+    /**
+     * Delete a Category
+     * @param mixed $id to delete
+     * @return bool
+     */
     public function delete($id): bool
     {
         $dto = $this->findById($id);
@@ -69,6 +95,10 @@ class CategoryRepository implements ICrud
         }
         return true;
     }
+    /**
+     * Returns only deleted Categories
+     * @return Collection|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Support\Collection
+     */
     public function getOnlyTrash(){
         $dtos = [];
         try {
@@ -78,6 +108,11 @@ class CategoryRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Restore a deleted Category
+     * @param mixed $id to restore
+     * @return bool
+     */
     public function restore($id): bool{
         $dto = $this->findById($id);
         if ($dto) {
@@ -91,7 +126,26 @@ class CategoryRepository implements ICrud
         }
         return false;
     }
+    /**
+     * Returns paginated Categories
+     * @param int $page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     *
+     */
+    public function getPagination(){
+        $dtos = [];
+        try {
+            $dtos = Category::on($this->connection1)->paginate(self::AMOUNT_PER_PAGE);
+        } catch (Exception $e) {
+            $dtos = Category::on($this->connection2)->paginate(self::AMOUNT_PER_PAGE);
+        }
+        return $dtos;
+    }
 
+    /**
+     * Set test mode
+     * @return void
+     */
     public function setTestMode()
     {
         $this->connection1 = "sqlite";

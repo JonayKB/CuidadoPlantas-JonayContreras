@@ -12,6 +12,12 @@ class ImageRepository implements ICrud
     public string $connection1 = "mysql";
     public string $connection2 = "sqliteLocal";
 
+
+    /**
+     * Find an image
+     * @param int $id to find
+     * @return object|null
+     */
     public function findById(int $id): object | null
     {
         $dto = null;
@@ -23,6 +29,10 @@ class ImageRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Returns all images
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function findAll(): Collection
     {
         $dtos = [];
@@ -33,6 +43,11 @@ class ImageRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Saves a Image
+     * @param object $dto to save
+     * @return object|null
+     */
     public function save(object $dto): object | null
     {
         try {
@@ -45,6 +60,11 @@ class ImageRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Updates an Image
+     * @param object $dto to update
+     * @return bool
+     */
     public function update(object $dto): bool
     {
         try {
@@ -55,6 +75,11 @@ class ImageRepository implements ICrud
         }
         return true;
     }
+    /**
+     * Deletes a Image
+     * @param mixed $id to delete
+     * @return bool
+     */
     public function delete($id): bool
     {
         $dto = $this->findById($id);
@@ -69,6 +94,10 @@ class ImageRepository implements ICrud
         }
         return true;
     }
+    /**
+     * Returns only deleted images
+     * @return Collection|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Support\Collection
+     */
     public function getOnlyTrash(){
         $dtos = [];
         try {
@@ -78,6 +107,11 @@ class ImageRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Restores a Image
+     * @param mixed $id to restore
+     * @return bool
+     */
     public function restore($id): bool{
         $dto = $this->findById($id);
         if ($dto) {
@@ -92,6 +126,10 @@ class ImageRepository implements ICrud
         return false;
     }
 
+    /**
+     * Set Test Mode
+     * @return void
+     */
     public function setTestMode()
     {
         $this->connection1 = "sqlite";

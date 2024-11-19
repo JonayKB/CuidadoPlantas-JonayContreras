@@ -16,6 +16,11 @@ class UserRepository implements ICrud
     public string $connection1 = "mysql";
     public string $connection2 = "sqliteLocal";
 
+    /**
+     * Finds a User
+     * @param int $id to find
+     * @return object|null
+     */
     public function findById(int $id): object | null
     {
         $dto = null;
@@ -27,6 +32,11 @@ class UserRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Finds a user if is or not deleted
+     * @param int $id to find
+     * @return object|null
+     */
     public function findByIdWithTrash(int $id): object | null
     {
         $dto = null;
@@ -38,6 +48,11 @@ class UserRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Finds a User
+     * @param mixed $email from user
+     * @return object|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|null
+     */
     public function findByEmail($email)
     {
         $dto = null;
@@ -48,6 +63,10 @@ class UserRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Returns all users
+     * @return Collection<User>
+     */
     public function findAll(): Collection
     {
         $dtos = [];
@@ -58,6 +77,11 @@ class UserRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Creates a new User and saves it
+     * @param \Illuminate\Http\Request $request
+     * @return object|null
+     */
     public function create(Request $request): object | null
     {
         $rolRepository = new RolRepository();
@@ -89,6 +113,11 @@ class UserRepository implements ICrud
         }
         return $user;
     }
+    /**
+     * Saves an User
+     * @param object $dto to save
+     * @return object|null
+     */
     public function save(object $dto): object | null
     {
         try {
@@ -114,25 +143,18 @@ class UserRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Updates an User
+     * @param object $dto to update
+     * @return bool
+     */
     public function update(object $dto): bool
     {
         try {
             $dto->setConnection($this->connection1)->save();
 
-            $dto2 = new User([
-                'id' => $dto->id,
-                'name' => $dto->name,
-                'email' => $dto->email,
-                'password' => $dto->password,
-                'verified' => $dto->verified,
-                'remember_token' => $dto->remember_token,
-                'created_at' => $dto->created_at,
-                'updated_at' => $dto->updated_at,
-                'email_verified_at' => $dto->email_verified_at,
-                'deleted_at' => $dto->deleted_at,
-            ]);
             if (!app()->runningUnitTests()) {
-                $dto2->setConnection($this->connection2)->save();
+                $dto->setConnection($this->connection2)->save();
             }
             return true;
         } catch (Exception $e) {
@@ -141,6 +163,11 @@ class UserRepository implements ICrud
     }
 
 
+    /**
+     * Deletes a User
+     * @param mixed $id to delete
+     * @return bool
+     */
     public function delete($id): bool
     {
         $dto = $this->findById($id);
@@ -155,6 +182,11 @@ class UserRepository implements ICrud
         }
         return true;
     }
+
+    /**
+     * Returns only deleted users
+     * @return mixed
+     */
     public function getOnlyTrash()
     {
         $dtos = [];
@@ -165,6 +197,10 @@ class UserRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Returns not verifieds Users
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public function getNotVerified()
     {
         $dtos = [];
@@ -175,6 +211,11 @@ class UserRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Restores a deleted user
+     * @param mixed $id to restore
+     * @return bool
+     */
     public function restore($id): bool
     {
         $dto = $this->findByIdWithTrash($id);
@@ -204,6 +245,11 @@ class UserRepository implements ICrud
         }
         return false;
     }
+    /**
+     * Verifies a user
+     * @param mixed $id to verify
+     * @return bool
+     */
     public function verify($id)
     {
         $dto = $this->findById($id);
@@ -220,6 +266,10 @@ class UserRepository implements ICrud
         return false;
     }
 
+    /**
+     * Get Pagination
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public function getPagination()
     {
         $dtos = [];
@@ -231,6 +281,10 @@ class UserRepository implements ICrud
         return $dtos;
     }
 
+    /**
+     * Set Test Mode
+     * @return void
+     */
     public function setTestMode()
     {
         $this->connection1 = "sqlite";

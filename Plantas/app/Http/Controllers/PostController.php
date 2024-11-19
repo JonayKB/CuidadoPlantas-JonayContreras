@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    /**
+     * Returns posts dashboard
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function indexDashboard()
     {
         $trash = false;
@@ -20,6 +24,10 @@ class PostController extends Controller
         $posts = $postRepository->getPagination();
         return view('dashboardPosts', compact('posts', 'trash'));
     }
+    /**
+     * Returns all the information requiered to main page
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function index()
     {
         $postRepository = new PostRepository();
@@ -34,6 +42,11 @@ class PostController extends Controller
         return view('welcome', compact('posts', 'plants', 'categories','plantTypes'));
     }
 
+    /**
+     * Show a post
+     * @param mixed $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function show($id)
     {
         $postRepository = new PostRepository();
@@ -42,6 +55,11 @@ class PostController extends Controller
         return view('showPost', compact('post'));
     }
 
+    /**
+     * Filter posts
+     * @param \Illuminate\Http\Request $request to filter by
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function filter(Request $request)
     {
         $plantRepository = new PlantRepository();
@@ -74,6 +92,10 @@ class PostController extends Controller
 
         return view('welcome', compact('posts', 'plants', 'plantTypes', 'categories'));
     }
+    /**
+     * Returns form to create a new post
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function getView()
     {
         $plantRepository = new PlantRepository();
@@ -82,6 +104,11 @@ class PostController extends Controller
         $categories = $categoryRepository->findAll();
         return view('createPost', compact('plants',  'categories'));
     }
+    /**
+     * Creates a new post
+     * @param Request $request to receive data
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function create(Request $request)
     {
 
@@ -119,6 +146,12 @@ class PostController extends Controller
         return redirect()->route('posts.show', $post->post_id);
     }
 
+
+    /**
+     * Reports a post
+     * @param \Illuminate\Http\Request $request
+     * @return mixed|\Illuminate\Http\RedirectResponse
+     */
     public function report(Request $request)
     {
         $postRepository = new PostRepository();
@@ -127,6 +160,11 @@ class PostController extends Controller
         $postRepository->save($post);
         return redirect()->route('posts.show', $post->post_id);
     }
+    /**
+     * Returns the view to edit a post
+     * @param mixed $post_id to edit
+     * @return mixed|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function edit($post_id)
     {
         $postRepository = new PostRepository();
@@ -140,6 +178,10 @@ class PostController extends Controller
         $categories = $categoryRepository->findAll();
         return view('editPost', compact('post','plants','categories'));
     }
+    /**
+     * Returns the deleted posts
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function getTrash()
     {
         $trash = true;
@@ -147,18 +189,33 @@ class PostController extends Controller
         $posts = $postRepository->getOnlyTrash();
         return view('dashboardPosts', compact('posts', 'trash'));
     }
+    /**
+     * Restore a deleted post
+     * @param mixed $post_id to restore
+     * @return mixed|\Illuminate\Http\RedirectResponse
+     */
     public function restore($post_id)
     {
         $postRepository = new PostRepository();
         $postRepository->restore($post_id);
         return redirect('postTrash')->with('message', 'Post restored correctly');
     }
+    /**
+     * Deletes a post
+     * @param mixed $post_id to delete
+     * @return mixed|\Illuminate\Http\RedirectResponse
+     */
     public function delete($post_id)
     {
         $postRepository = new PostRepository();
         $postRepository->delete($post_id);
         return redirect()->route('dashboardPosts')->with('message', 'Post deleted correctly');
     }
+    /**
+     * Delete a post (by user)
+     * @param mixed $post_id to delete
+     * @return mixed|\Illuminate\Http\RedirectResponse
+     */
     public function deleteUser($post_id){
         $postRepository = new PostRepository();
         $post = $postRepository->findById($post_id);
@@ -168,6 +225,10 @@ class PostController extends Controller
         $postRepository->delete($post_id);
         return redirect('/')->with('message', 'Post deleted correctly');
     }
+    /**
+     * Get reporteds post and returns to view
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function getReportedPosts()
     {
         $trash = false;
@@ -175,6 +236,11 @@ class PostController extends Controller
         $posts = $postRepository->getReportedPosts();
         return view('dashboardPosts', compact('posts', 'trash'));
     }
+    /**
+     * Update a post
+     * @param \Illuminate\Http\Request $request
+     * @return mixed|\Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request){
         $postRepository = new PostRepository();
         $post = $postRepository->findById($request->post_id);
@@ -188,6 +254,11 @@ class PostController extends Controller
         $postRepository->update($post);
         return redirect()->route('posts.show', $post->post_id)->with('message', 'Post updated correctly');
     }
+    /**
+     * Clear reports from a post
+     * @param mixed $id post id
+     * @return mixed|\Illuminate\Http\RedirectResponse
+     */
     public function clearReports($id){
         $postRepository = new PostRepository();
         $post = $postRepository->findById($id);

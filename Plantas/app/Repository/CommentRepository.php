@@ -12,6 +12,11 @@ class CommentRepository implements ICrud
     public string $connection1 = "mysql";
     public string $connection2 = "sqliteLocal";
 
+    /**
+     * Finds a Comment by id
+     * @param int $id to find
+     * @return object|null
+     */
     public function findById(int $id): object | null
     {
         $dto = null;
@@ -23,6 +28,10 @@ class CommentRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Returns all Comments
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function findAll(): Collection
     {
         $dtos = [];
@@ -33,6 +42,11 @@ class CommentRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Saves an Comment
+     * @param object $dto to save
+     * @return object|null
+     */
     public function save(object $dto): object | null
     {
         try {
@@ -46,6 +60,11 @@ class CommentRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Updates an Comment
+     * @param object $dto to update
+     * @return bool
+     */
     public function update(object $dto): bool
     {
         try {
@@ -56,6 +75,11 @@ class CommentRepository implements ICrud
         }
         return true;
     }
+    /**
+     * Deletes an Comment
+     * @param mixed $id to delete
+     * @return bool
+     */
     public function delete($id): bool
     {
         $dto = $this->findById($id);
@@ -70,6 +94,10 @@ class CommentRepository implements ICrud
         }
         return true;
     }
+    /**
+     * Returns only deletes comments
+     * @return Collection|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Support\Collection
+     */
     public function getOnlyTrash(){
         $dtos = [];
         try {
@@ -79,6 +107,11 @@ class CommentRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Restores a deleted Comment
+     * @param mixed $id to deleted
+     * @return bool
+     */
     public function restore($id): bool{
         $dto = $this->findById($id);
         if ($dto) {
@@ -93,6 +126,10 @@ class CommentRepository implements ICrud
         return false;
     }
 
+    /**
+     * Set Test mode
+     * @return void
+     */
     public function setTestMode()
     {
         $this->connection1 = "sqlite";

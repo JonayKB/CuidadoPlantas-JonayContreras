@@ -12,6 +12,11 @@ class PlantTypeRepository implements ICrud
     public string $connection1 = "mysql";
     public string $connection2 = "sqliteLocal";
 
+    /**
+     * Finds a PlantType by id
+     * @param int $id to find
+     * @return PlantType | null
+     */
     public function findById(int $id): object | null
     {
         $dto = null;
@@ -23,6 +28,10 @@ class PlantTypeRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Returns all PlantTypes
+     * @return Collection<PlantType>
+     */
     public function findAll(): Collection
     {
         $dtos = [];
@@ -33,6 +42,11 @@ class PlantTypeRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Saves a plantType
+     * @param object $dto to save
+     * @return object|null
+     */
     public function save(object $dto): object | null
     {
         try {
@@ -45,6 +59,11 @@ class PlantTypeRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Updates a planttype
+     * @param object $dto to update
+     * @return bool
+     */
     public function update(object $dto): bool
     {
         try {
@@ -55,6 +74,11 @@ class PlantTypeRepository implements ICrud
         }
         return true;
     }
+    /**
+     * Deletes a plantType
+     * @param mixed $id to delete
+     * @return bool
+     */
     public function delete($id): bool
     {
         $dto = $this->findById($id);
@@ -69,6 +93,10 @@ class PlantTypeRepository implements ICrud
         }
         return true;
     }
+    /**
+     * Returns onyl deleted PlantsType
+     * @return Collection|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Support\Collection
+     */
     public function getOnlyTrash(){
         $dtos = [];
         try {
@@ -78,6 +106,11 @@ class PlantTypeRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Restores a PlantType
+     * @param mixed $id to restore
+     * @return bool
+     */
     public function restore($id): bool{
         $dto = $this->findById($id);
         if ($dto) {
@@ -92,6 +125,10 @@ class PlantTypeRepository implements ICrud
         return false;
     }
 
+    /**
+     * Set Test Mode
+     * @return void
+     */
     public function setTestMode()
     {
         $this->connection1 = "sqlite";

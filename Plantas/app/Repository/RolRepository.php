@@ -12,6 +12,12 @@ class RolRepository implements ICrud
     public string $connection1 = "mysql";
     public string $connection2 = "sqliteLocal";
 
+
+    /**
+     * Finds a Rol
+     * @param int $id to find
+     * @return object|null
+     */
     public function findById(int $id): object | null
     {
         $dto = null;
@@ -23,6 +29,10 @@ class RolRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Finds all roles
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function findAll(): Collection
     {
         $dtos = [];
@@ -33,6 +43,11 @@ class RolRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Saves a Rol
+     * @param object $dto to save
+     * @return object|null
+     */
     public function save(object $dto): object | null
     {
         try {
@@ -47,6 +62,11 @@ class RolRepository implements ICrud
         }
         return $dto;
     }
+    /**
+     * Updates a Rol
+     * @param object $dto to update
+     * @return bool
+     */
     public function update(object $dto): bool
     {
         try {
@@ -57,6 +77,11 @@ class RolRepository implements ICrud
         }
         return true;
     }
+    /**
+     * Deletes a Rol
+     * @param mixed $id to delete
+     * @return bool
+     */
     public function delete($id): bool
     {
         $dto = $this->findById($id);
@@ -71,6 +96,10 @@ class RolRepository implements ICrud
         }
         return true;
     }
+    /**
+     * Get deleteds ROles
+     * @return Collection|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Support\Collection
+     */
     public function getOnlyTrash(){
         $dtos = [];
         try {
@@ -80,6 +109,11 @@ class RolRepository implements ICrud
         }
         return $dtos;
     }
+    /**
+     * Restores a Rol
+     * @param mixed $id to restore
+     * @return bool
+     */
     public function restore($id): bool{
         $dto = $this->findById($id);
         if ($dto) {
@@ -95,6 +129,10 @@ class RolRepository implements ICrud
     }
 
 
+    /**
+     * Set Test Mode
+     * @return void
+     */
     public function setTestMode()
     {
         $this->connection1 = "sqlite";
