@@ -14,6 +14,6 @@ class PlantType extends Model
 
     public function plants()
     {
-        return $this->hasMany(Plant::class, 'type', 'id');
+        return $this->hasMany(Plant::class, 'type_id', 'id');
     }
 }

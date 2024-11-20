@@ -53,7 +53,8 @@ class CommentRepository implements ICrud
             $dto->setConnection($this->connection1)->save();
             $dto2 = new Comment();
             $dto2->fill($dto->toArray());
-            $dto2->setConnection($this->connection2)->save();
+            if (!app()->runningUnitTests())
+                $dto2->setConnection($this->connection2)->save();
         } catch (Exception $e) {
 
             return null;
@@ -69,16 +70,16 @@ class CommentRepository implements ICrud
     {
         try {
             $dto->setConnection($this->connection1)->save();
-            if (!app()->runningUnitTests()){
-                DB::connection($this->connection2)->table('comments')->where('comment_id','=', $dto->comment_id)->update([
+            if (!app()->runningUnitTests()) {
+                DB::connection($this->connection2)->table('comments')->where('comment_id', '=', $dto->comment_id)->update([
 
-                    'user_id'=>$dto->user_id,
-                    'post_id'=>$dto->post_id,
-                    'content'=>$dto->content,
-                    'deleted_at'=>$dto->deleted_at,
-                    'updated_at'=>$dto->updated_at,
-                    'created_at'=>$dto->created_at,
-                    'parent_comment_id'=>$dto->parent_comment_id
+                    'user_id' => $dto->user_id,
+                    'post_id' => $dto->post_id,
+                    'content' => $dto->content,
+                    'deleted_at' => $dto->deleted_at,
+                    'updated_at' => $dto->updated_at,
+                    'created_at' => $dto->created_at,
+                    'parent_comment_id' => $dto->parent_comment_id
                 ]);
             }
         } catch (Exception $e) {

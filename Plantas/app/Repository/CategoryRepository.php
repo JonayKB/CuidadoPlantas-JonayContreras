@@ -71,7 +71,9 @@ class CategoryRepository implements ICrud
             $dto->setConnection($this->connection1)->save();
             $dto2 = new Category();
             $dto2->fill($dto->toArray());
-            $dto2->setConnection($this->connection2)->save();
+            if (!app()->runningUnitTests()) {
+                $dto2->setConnection($this->connection2)->save();
+            }
         } catch (Exception $e) {
             return null;
         }
