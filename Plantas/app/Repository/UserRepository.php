@@ -267,13 +267,7 @@ class UserRepository implements ICrud
         $dto = $this->findById($id);
         if ($dto) {
             $dto->verified = true;
-            try {
-                $dto->setConnection($this->connection1)->save();
-                $dto->setConnection($this->connection2)->save();
-            } catch (Exception $e) {
-                return false;
-            }
-            return true;
+           $this->update($dto);
         }
         return false;
     }

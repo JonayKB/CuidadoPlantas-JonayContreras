@@ -9,6 +9,7 @@ use App\Repository\ImageRepository;
 use App\Repository\PlantRepository;
 use App\Repository\PlantTypeRepository;
 use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -19,10 +20,13 @@ class PostController extends Controller
      */
     public function indexDashboard()
     {
-        $trash = false;
+        $userRepository = new UserRepository();
+        $userNeedsVerification = $userRepository->getNotVerified()->total();
         $postRepository = new PostRepository();
+        $postsReporteds = $postRepository->getReportedPosts()->total();
+        $trash = false;
         $posts = $postRepository->getPagination();
-        return view('dashboardPosts', compact('posts', 'trash'));
+        return view('dashboardPosts', compact('posts', 'trash','userNeedsVerification','postsReporteds'));
     }
     /**
      * Returns all the information requiered to main page
@@ -187,7 +191,10 @@ class PostController extends Controller
         $trash = true;
         $postRepository = new PostRepository();
         $posts = $postRepository->getOnlyTrash();
-        return view('dashboardPosts', compact('posts', 'trash'));
+        $userRepository = new UserRepository();
+        $userNeedsVerification = $userRepository->getNotVerified()->total();
+        $postsReporteds = $postRepository->getReportedPosts()->total();
+        return view('dashboardPosts', compact('posts', 'trash','userNeedsVerification','postsReporteds'));
     }
     /**
      * Restore a deleted post
@@ -231,10 +238,14 @@ class PostController extends Controller
      */
     public function getReportedPosts()
     {
+
         $trash = false;
         $postRepository = new PostRepository();
+        $userRepository = new UserRepository();
         $posts = $postRepository->getReportedPosts();
-        return view('dashboardPosts', compact('posts', 'trash'));
+        $userNeedsVerification = $userRepository->getNotVerified()->total();
+        $postsReporteds = $posts->total();
+        return view('dashboardPosts', compact('posts', 'trash','userRepository','userNeedsVerification','postsReporteds'));
     }
     /**
      * Update a post

@@ -15,10 +15,13 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function indexDashboard(){
-        $trash = false;
         $userRepository = new UserRepository();
+        $userNeedsVerification = $userRepository->getNotVerified()->total();
+        $postRepository = new PostRepository();
+        $postsReporteds = $postRepository->getReportedPosts()->total();
+        $trash = false;
         $users = $userRepository->getPagination();
-        return view('dashboard', compact('users','trash'));
+        return view('dashboard', compact('users','trash','userNeedsVerification','postsReporteds'));
     }
     /**
      * Returns to edit user view
@@ -51,10 +54,13 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function getTrash(){
-        $trash = true;
         $userRepository = new UserRepository();
+        $userNeedsVerification = $userRepository->getNotVerified()->total();
+        $postRepository = new PostRepository();
+        $postsReporteds = $postRepository->getReportedPosts()->total();
+        $trash = true;
         $users = $userRepository->getOnlyTrash();
-        return view('dashboard', compact('users','trash'));
+        return view('dashboard', compact('users','trash','userNeedsVerification','postsReporteds'));
     }
     /**
      * Restore a user
@@ -100,10 +106,13 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function getNotVerified(){
-        $trash = false;
         $userRepository = new UserRepository();
+        $postRepository = new PostRepository();
+        $postsReporteds = $postRepository->getReportedPosts()->total();
+        $trash = false;
         $users = $userRepository->getNotVerified();
-        return view('dashboard', compact('users','trash'));
+        $userNeedsVerification = $users->total();
+        return view('dashboard', compact('users','trash','postsReporteds','userNeedsVerification'));
     }
     /**
      * Verifies a user

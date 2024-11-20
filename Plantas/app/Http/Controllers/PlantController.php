@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Plant;
 use App\Repository\PlantRepository;
 use App\Repository\PlantTypeRepository;
+use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use Illuminate\Http\Request;
 
 class PlantController extends Controller
@@ -17,7 +19,11 @@ class PlantController extends Controller
         $trash = false;
         $plantRepository = new PlantRepository();
         $plants = $plantRepository->getPagination();
-        return view('dashboardPlants',compact('plants','trash'));
+        $userRepository = new UserRepository();
+        $userNeedsVerification = $userRepository->getNotVerified()->total();
+        $postRepository = new PostRepository();
+        $postsReporteds = $postRepository->getReportedPosts()->total();
+        return view('dashboardPlants',compact('plants','trash','userNeedsVerification','postsReporteds'));
     }
     /**
      * Get the deleted plants and returns to a view
@@ -25,10 +31,14 @@ class PlantController extends Controller
      */
     public function getTrash()
     {
+        $userRepository = new UserRepository();
+        $userNeedsVerification = $userRepository->getNotVerified()->total();
+        $postRepository = new PostRepository();
+        $postsReporteds = $postRepository->getReportedPosts()->total();
         $trash = true;
         $plantRepository = new PlantRepository();
         $plants = $plantRepository->getOnlyTrash();
-        return view('dashboardPlants', compact('plants', 'trash'));
+        return view('dashboardPlants', compact('plants', 'trash','userNeedsVerification','postsReporteds'));
     }
     /**
      * Restore a plant

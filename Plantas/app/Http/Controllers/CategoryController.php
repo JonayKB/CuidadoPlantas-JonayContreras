@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Repository\CategoryRepository;
+use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -11,8 +13,14 @@ class CategoryController extends Controller
     public function indexDashboard(){
         $trash = false;
         $categoryRepository = new CategoryRepository();
+        $userRepository = new UserRepository();
+        $userNeedsVerification = $userRepository->getNotVerified()->total();
+        $postRepository = new PostRepository();
+        $postsReporteds = $postRepository->getReportedPosts()->total();
+
+
         $categories = $categoryRepository->getPagination();
-        return view('dashboardCategories', compact('categories','trash'));
+        return view('dashboardCategories', compact('categories','trash','userNeedsVerification','postsReporteds'));
     }
     public function edit($id){
         $categoryRepository = new CategoryRepository();
@@ -34,7 +42,11 @@ class CategoryController extends Controller
         $trash = true;
         $categoryRepository = new CategoryRepository();
         $categories = $categoryRepository->getOnlyTrash();
-        return view('dashboardCategories', compact('categories','trash'));
+        $userRepository = new UserRepository();
+        $userNeedsVerification = $userRepository->getNotVerified()->total();
+        $postRepository = new PostRepository();
+        $postsReporteds = $postRepository->getReportedPosts()->total();
+        return view('dashboardCategories', compact('categories','trash','userNeedsVerification','postsReporteds'));
     }
     public function restore($id){
         $categoryRepository = new CategoryRepository();

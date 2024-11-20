@@ -100,6 +100,12 @@
                                     class="nav-link align-middle {{ Request::is('dashboardVerification') ? 'active' : '' }}">
                                     <i class="bi bi-info-square fs-4"></i>
                                     <span class="ms-1 d-none d-sm-inline">Need Verification</span>
+                                    @if ($userNeedsVerification > 0)
+                                        <span class="top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            {{ $userNeedsVerification }}
+                                            <span class="visually-hidden">needs verification</span>
+                                        </span>
+                                    @endif
                                 </a>
                             </li>
                             <li>
@@ -107,6 +113,12 @@
                                     class="nav-link align-middle {{ Request::is('dashboardReports') ? 'active' : '' }}">
                                     <i class="bi bi-flag fs-4"></i>
                                     <span class="ms-1 d-none d-sm-inline">Reports</span>
+                                    @if ($postsReporteds > 0)
+                                        <span class="top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            {{ $postsReporteds }}
+                                            <span class="visually-hidden">reporteds posts</span>
+                                        </span>
+                                    @endif
                                 </a>
                             </li>
                         </ul>
@@ -161,7 +173,8 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             Are you sure you want to delete the Category named
-                                                            <strong>{{ $category->name }}</strong>? This action cannot be
+                                                            <strong>{{ $category->name }}</strong>? This action cannot
+                                                            be
                                                             undone.
                                                         </div>
                                                         <div class="modal-footer">
