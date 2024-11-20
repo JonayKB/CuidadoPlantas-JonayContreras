@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Models\PlantType;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
-
+use Illuminate\Support\Facades\DB;
 
 class PlantTypeRepository implements ICrud
 {
@@ -69,7 +69,12 @@ class PlantTypeRepository implements ICrud
     {
         try {
             $dto->setConnection($this->connection1)->save();
-            $dto->setConnection($this->connection2)->save();
+            if(!app()->runningUnitTests()){
+                DB::connection($this->connection2)->table('plants_types')->where('id','=', $dto->id)->update([
+                    'name'=>$dto->name,
+                    'deleted_at'=>$dto->deleted_at,
+                ]);
+            }
         } catch (Exception $e) {
             return false;
         }

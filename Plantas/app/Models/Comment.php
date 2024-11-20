@@ -31,7 +31,7 @@ class Comment extends Model
     /**
      * @var array
      */
-    protected $fillable = ['parent_comment_id', 'post_id', 'user_id', 'content', 'created_at', 'updated_at'];
+    protected $fillable = ['comment_id','parent_comment_id', 'post_id', 'user_id', 'content', 'created_at', 'updated_at','deleted_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\hasMany

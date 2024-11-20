@@ -58,7 +58,7 @@
                 <input type="hidden" name="post_id" value={{ $post->post_id }}>
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" value={{ $post->title }}>
+                    <input type="text" class="form-control" id="title" name="title" value="{{ e($post->title) }}"">
                 </div>
                 <div class="row mb-5">
                     <div class="col">

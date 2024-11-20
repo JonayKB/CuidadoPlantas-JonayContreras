@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Models\Image;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
-
+use Illuminate\Support\Facades\DB;
 
 class ImageRepository implements ICrud
 {
@@ -70,7 +70,14 @@ class ImageRepository implements ICrud
     {
         try {
             $dto->setConnection($this->connection1)->save();
-            $dto->setConnection($this->connection2)->save();
+            if (!app()->runningUnitTests()){
+                DB::connection($this->connection2)->table('images')->where('id','=', $dto->id)->update([
+                    'id'=>$dto->id,
+                    'path'=>$dto->path,
+                    'post_id'=>$dto->post_id,
+                    'deleted_at'=>$dto->deleted_at,
+                ]);
+            }
         } catch (Exception $e) {
             return false;
         }

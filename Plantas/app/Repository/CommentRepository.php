@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Models\Comment;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
-
+use Illuminate\Support\Facades\DB;
 
 class CommentRepository implements ICrud
 {
@@ -69,7 +69,18 @@ class CommentRepository implements ICrud
     {
         try {
             $dto->setConnection($this->connection1)->save();
-            $dto->setConnection($this->connection2)->save();
+            if (!app()->runningUnitTests()){
+                DB::connection($this->connection2)->table('comments')->where('comment_id','=', $dto->comment_id)->update([
+
+                    'user_id'=>$dto->user_id,
+                    'post_id'=>$dto->post_id,
+                    'content'=>$dto->content,
+                    'deleted_at'=>$dto->deleted_at,
+                    'updated_at'=>$dto->updated_at,
+                    'created_at'=>$dto->created_at,
+                    'parent_comment_id'=>$dto->parent_comment_id
+                ]);
+            }
         } catch (Exception $e) {
             return false;
         }
@@ -94,7 +105,7 @@ class CommentRepository implements ICrud
         }
         return true;
     }
-    
+
 
     /**
      * Set Test mode

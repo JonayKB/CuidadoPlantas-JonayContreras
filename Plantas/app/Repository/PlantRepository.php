@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Models\Plant;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
-
+use Illuminate\Support\Facades\DB;
 
 class PlantRepository implements ICrud
 {
@@ -71,7 +71,7 @@ class PlantRepository implements ICrud
             $dto2 = new Plant();
             $dto2->fill($dto->toArray());
             if (!app()->runningUnitTests())
-            $dto2->setConnection($this->connection2)->save();
+                $dto2->setConnection($this->connection2)->save();
         } catch (Exception $e) {
             return null;
         }
@@ -86,7 +86,14 @@ class PlantRepository implements ICrud
     {
         try {
             $dto->setConnection($this->connection1)->save();
-            $dto->setConnection($this->connection2)->save();
+            if (!app()->runningUnitTests()) {
+                DB::connection($this->connection2)->table('plants')->where('plant_id', '=', $dto->plant_id)->update([
+                    'plant_id' => $dto->plant_id,
+                    'name' => $dto->name,
+                    'type_id' => $dto->type_id,
+                    'deleted_at' => $dto->deleted_at,
+                ]);
+            }
         } catch (Exception $e) {
             return false;
         }
@@ -129,13 +136,13 @@ class PlantRepository implements ICrud
      * Find all deleted plants
      * @return mixed
      */
-    public function getOnlyTrash(){
+    public function getOnlyTrash()
+    {
         $dtos = [];
         try {
             $dtos = Plant::on($this->connection1)->onlyTrashed()->paginate(self::AMOUNT_PER_PAGE);
         } catch (Exception $e) {
             $dtos = Plant::on($this->connection2)->onlyTrashed()->paginate(self::AMOUNT_PER_PAGE);
-
         }
         return $dtos;
     }
@@ -144,12 +151,20 @@ class PlantRepository implements ICrud
      * @param mixed $id to restore
      * @return bool
      */
-    public function restore($id): bool{
+    public function restore($id): bool
+    {
         $dto = $this->findByIdWithTrash($id);
         if ($dto) {
             try {
                 $dto->setConnection($this->connection1)->restore();
-                $dto->setConnection($this->connection2)->restore();
+                $dto2 = new Plant([
+                    'plant_id' => $dto->plant_id,
+                    'name' => $dto->name,
+                    'type_id' => $dto->type_id,
+                    'deleted_at' => $dto->deleted_at,
+                ]);
+                if (!app()->runningUnitTests())
+                    $dto2->setConnection($this->connection2)->restore();
             } catch (Exception $e) {
                 return false;
             }

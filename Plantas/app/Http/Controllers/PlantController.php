@@ -95,7 +95,7 @@ class PlantController extends Controller
         $plant = $plantRepository->findById($plant_id);
         $plant->name = $request->name;
         $plant->type_id = $request->type;
-        $plantRepository->save($plant);
+        $plantRepository->update($plant);
         return redirect()->route('dashboardPlants')->with('message', 'Plant updated correctly');
     }
 }

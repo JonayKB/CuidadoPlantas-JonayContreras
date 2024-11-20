@@ -88,7 +88,7 @@ class PostRepository implements ICrud
         try {
             $dto->setConnection($this->connection1)->save();
             if (!app()->runningUnitTests()) {
-                DB::connection($this->connection2)->table('posts')->where('post_id','=', $dto->post_id)->update([
+                DB::connection($this->connection2)->table('posts')->where('post_id', '=', $dto->post_id)->update([
                     'title' => $dto->title,
                     'description' => $dto->description,
                     'created_at' => $dto->created_at,
@@ -97,7 +97,7 @@ class PostRepository implements ICrud
                     'updated_at' => $dto->updated_at,
                     'plant_id' => $dto->plant_id,
                     'reports' => $dto->reports,
-                    'deleted_at'=> $dto->deleted_at,
+                    'deleted_at' => $dto->deleted_at,
                 ]);
             }
         } catch (Exception $e) {
@@ -149,8 +149,7 @@ class PostRepository implements ICrud
         $dto = $this->findByIdWithTrash($id);
         if ($dto) {
             try {
-                $dto->setConnection($this->connection1)->restore();
-                $dto2= new Post([
+                $dto2 = new Post([
                     'post_id' => $dto->post_id,
                     'title' => $dto->title,
                     'description' => $dto->description,
@@ -160,8 +159,9 @@ class PostRepository implements ICrud
                     'updated_at' => $dto->updated_at,
                     'plant_id' => $dto->plant_id,
                     'reports' => $dto->reports,
-                    'deleted_at'=> $dto->deleted_at,
+                    'deleted_at' => $dto->deleted_at,
                 ]);
+                $dto->setConnection($this->connection1)->restore();
                 $dto2->setConnection($this->connection2)->restore();
             } catch (Exception $e) {
                 return false;

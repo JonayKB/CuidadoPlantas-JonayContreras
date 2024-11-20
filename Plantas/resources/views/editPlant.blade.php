@@ -58,7 +58,8 @@
                 <input type="hidden" name="plant_id" value={{ $plant->plant_id }}>
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" value={{ $plant->name }}>
+                    <input type="text" class="form-control" id="name" name="name"
+                        value="{{ e($plant->name) }}">
                 </div>
                 <div class="row mb-5">
                     <div class="col">

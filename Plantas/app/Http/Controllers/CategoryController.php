@@ -27,7 +27,7 @@ class CategoryController extends Controller
         $category_id = $request->id;
         $category = $categoryRepository->findById($category_id);
         $category->name = $request->name;
-        $categoryRepository->save($category);
+        $categoryRepository->update($category);
         return redirect()->route('dashboardCategories')->with('message', 'Category updated correctly');
     }
     public function getTrash(){

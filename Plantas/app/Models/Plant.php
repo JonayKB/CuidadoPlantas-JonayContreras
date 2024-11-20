@@ -27,7 +27,7 @@ class Plant extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name','type_id'];
+    protected $fillable = ['plant_id','name','type_id','deleted_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
