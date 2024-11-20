@@ -34,7 +34,7 @@ class Post extends Model
     /**
      * @var array
      */
-    protected $fillable = ['plant_id', 'user_id', 'title', 'description', 'created_at', 'updated_at', 'reports', 'category_id'];
+    protected $fillable = ['plant_id', 'user_id', 'title', 'description', 'created_at', 'updated_at', 'reports', 'category_id','deleted_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

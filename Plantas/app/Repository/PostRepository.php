@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Models\Post;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
-
+use Illuminate\Support\Facades\DB;
 
 class PostRepository implements ICrud
 {
@@ -87,7 +87,19 @@ class PostRepository implements ICrud
     {
         try {
             $dto->setConnection($this->connection1)->save();
-            $dto->setConnection($this->connection2)->save();
+            if (!app()->runningUnitTests()) {
+                DB::connection($this->connection2)->table('posts')->where('post_id','=', $dto->post_id)->update([
+                    'title' => $dto->title,
+                    'description' => $dto->description,
+                    'created_at' => $dto->created_at,
+                    'category_id' => $dto->category_id,
+                    'user_id' => $dto->user_id,
+                    'updated_at' => $dto->updated_at,
+                    'plant_id' => $dto->plant_id,
+                    'reports' => $dto->reports,
+                    'deleted_at'=> $dto->deleted_at,
+                ]);
+            }
         } catch (Exception $e) {
             return false;
         }
@@ -138,7 +150,19 @@ class PostRepository implements ICrud
         if ($dto) {
             try {
                 $dto->setConnection($this->connection1)->restore();
-                $dto->setConnection($this->connection2)->restore();
+                $dto2= new Post([
+                    'post_id' => $dto->post_id,
+                    'title' => $dto->title,
+                    'description' => $dto->description,
+                    'created_at' => $dto->created_at,
+                    'category_id' => $dto->category_id,
+                    'user_id' => $dto->user_id,
+                    'updated_at' => $dto->updated_at,
+                    'plant_id' => $dto->plant_id,
+                    'reports' => $dto->reports,
+                    'deleted_at'=> $dto->deleted_at,
+                ]);
+                $dto2->setConnection($this->connection2)->restore();
             } catch (Exception $e) {
                 return false;
             }

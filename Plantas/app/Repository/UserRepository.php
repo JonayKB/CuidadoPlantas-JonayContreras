@@ -154,7 +154,7 @@ class UserRepository implements ICrud
         $dto->setConnection($this->connection1)->save();
 
         if (!app()->runningUnitTests()) {
-            DB::connection($this->connection2)->table('users')->where('id', $dto->id)->update([
+            DB::connection($this->connection2)->table('users')->where('id','=', $dto->id)->update([
                 'name' => $dto->name,
                 'email' => $dto->email,
                 'password' => $dto->password,
