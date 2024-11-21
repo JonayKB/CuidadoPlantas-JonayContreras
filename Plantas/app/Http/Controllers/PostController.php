@@ -142,7 +142,7 @@ class PostController extends Controller
         ]);
         $post = $postRepository->save($post);
         foreach ($images as $image) {
-            $imagename = time() . '_' . $image->getClientOriginalName();
+            $imagename = time(). '.'. $image->getClientOriginalExtension();
             $image->move('storage', $imagename);
             $imageModel = new Image(['path' => $imagename, 'post_id' => $post->post_id]);
             $imageRepository->save($imageModel);
