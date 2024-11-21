@@ -31,6 +31,5 @@ services:
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_DATABASE=plantas
-            - MYSQL_USER=root
 networks:
     plantas-network:
