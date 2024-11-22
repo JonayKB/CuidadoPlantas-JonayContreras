@@ -18,6 +18,8 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libpq-dev \
     libonig-dev \
+    default-mysql-client \
+    npm \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd
 # Install PHP extensions
@@ -31,9 +33,20 @@ COPY . /var/www
 # Copy the existing application directory permissions to the working directory
 COPY --chown=www-data:www-data . /var/www
 
+
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 RUN chown -R www-data:www-data /var/www/storage && chmod -R 775 /var/www/storage
+
+# Copy entry script
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
+# Make it executable
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Default entry point
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000

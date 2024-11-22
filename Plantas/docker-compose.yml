@@ -10,7 +10,7 @@ services:
         tty: true
         working_dir: /var/www
         volumes:
-            - .:/var/www
+            - plantas-app:/var/www # Volumen compartido
         networks:
             - plantas-network
     plantas-webserver:
@@ -20,7 +20,7 @@ services:
         ports:
             - "8080:80"
         volumes:
-            - .:/var/www
+            - plantas-app:/var/www # Volumen compartido
             - ./docker-compose/nginx:/etc/nginx/conf.d/
         networks:
             - plantas-network
@@ -31,5 +31,10 @@ services:
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_DATABASE=plantas
+        networks:
+            - plantas-network
 networks:
     plantas-network:
+        driver: bridge
+volumes:
+    plantas-app:   # Volumen compartido
