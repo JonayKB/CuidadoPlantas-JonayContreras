@@ -12,15 +12,18 @@ It consists of the application used by the users and an administrative page that
 
 ## How to use project
 
-- Set ENV Database variables
-- Do migrations on both databases
+- Download the project
+- Run docker-compose 
   ```
-  php artisan migrate
+  cd Plantas
+  docker-compose up -d --build
   ```
-  ```
-  php artisan migrate --database sqliteLocal
-  ```
-- Serve the project
+- Wait mysql to connect
+- Enter http://localhost:8080
+- You need to login as administrator to verify an user:
+  - email: root@gmail.com
+  - password: 12345678
+- Enjoy!
   
 ## Entity Relationship Diagram
 
