@@ -47,16 +47,15 @@ jobs:
       working-directory: ./Plantas
 
       with:
-        context: .
+        context: ./Plantas
         file: AppDockerfile
         push: true
         tags: ${{ vars.DOCKERHUB_USERNAME }}/plantas-image:latest
 
     - name: Build and push nginx
       uses: docker/build-push-action@v6
-      working-directory: ./Plantas
       with:
-        context: .
+        context: ./Plantas
         file: .NginxDockerfile
         push: true
         tags: ${{ vars.DOCKERHUB_USERNAME }}/plantas-nginx-webserver-image:latest
