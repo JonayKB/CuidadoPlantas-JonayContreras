@@ -5,21 +5,31 @@ services:
     container_name: plantas-container
     restart: unless-stopped
     depends_on:
-        - plantas-mysqldb
+      - plantas-mysqldb
     tty: true
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
     working_dir: /var/www
-#    volumes:
-#      - .:/var/www
+    command: >
+      sh -c "
+      composer update &&
+      composer install &&
+      php artisan migrate &&
+      php artisan migrate --database=sqliteLocal &&
+      php-fpm
+      "
     networks:
       - plantas-network
+
+
 
   plantas-webserver:
     image: jonaykb/plantas-nginx-webserver-image
     container_name: plantas-nginx-webserver
     restart: unless-stopped
+    depends_on:
+      - plantas
     ports:
       - "8080:80"
 #    volumes:

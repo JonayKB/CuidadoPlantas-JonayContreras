@@ -29,7 +29,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy the existing application directory contents to the working directory
-COPY ./Plantas /var/www
+COPY . /var/www
 # Copy the existing application directory permissions to the working directory
 COPY --chown=www-data:www-data . /var/www
 
@@ -41,20 +41,20 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
 ##RUN composer update && composer install --no-dev
 
 # Installing npm and building
-RUN npm install && run build
+RUN npm install && npm run build
 
 # Creating sqlite database
 RUN touch /var/www/database/database.sqlite &&\
 chmod 777 /var/www/database/database.sqlite &&\
-chown www-data:www-data /var/www/database/database.sqlite &&\
-php /var/www/artisan migrate --database sqliteLocal
+chown www-data:www-data /var/www/database/database.sqlite
+##php /var/www/artisan migrate --database sqliteLocal
 
 ## Setting max file post size
 RUN echo "upload_max_filesize = 100M" >> /usr/local/etc/php/conf.d/uploads.ini &&\
 echo "post_max_size = 100M" >> /usr/local/etc/php/conf.d/uploads.ini
 
 ## Doing databse migration
-RUN php /var/www/artisan migrate
+#RUN php /var/www/artisan migrate
 
 # Copy entry script
 #COPY entrypoint.sh /usr/local/bin/entrypoint.sh
