@@ -4,6 +4,8 @@ services:
     image: jonaykb/plantas-image
     container_name: plantas-container
     restart: unless-stopped
+    depends_on:
+        - plantas-mysqldb
     tty: true
     environment:
       SERVICE_NAME: app
