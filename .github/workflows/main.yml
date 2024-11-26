@@ -44,8 +44,6 @@ jobs:
 
     - name: Build and push laravel php-fpm
       uses: docker/build-push-action@v6
-      working-directory: ./Plantas
-
       with:
         context: ./Plantas
         file: AppDockerfile
