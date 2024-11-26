@@ -74,6 +74,7 @@ class PostRepository implements ICrud
             if (!app()->runningUnitTests())
                 $dto2->setConnection($this->connection2)->save();
         } catch (Exception $e) {
+            dd($e);
             return null;
         }
         return $dto;

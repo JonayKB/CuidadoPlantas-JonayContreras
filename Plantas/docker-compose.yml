@@ -1,40 +1,45 @@
 version: '3'
 services:
-    plantas:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        image: plantas-image
-        container_name: plantas-container
-        restart: unless-stopped
-        tty: true
-        working_dir: /var/www
-        volumes:
-            - plantas-app:/var/www # Volumen compartido
-        networks:
-            - plantas-network
-    plantas-webserver:
-        image: nginx:stable-alpine3.20
-        container_name: plantas-nginx-webserver
-        restart: unless-stopped
-        ports:
-            - "8080:80"
-        volumes:
-            - plantas-app:/var/www # Volumen compartido
-            - ./docker-compose/nginx:/etc/nginx/conf.d/
-        networks:
-            - plantas-network
-    plantas-mysql:
-        image: mysql:8.0.32
-        container_name: plantas-mysql-db
-        restart: unless-stopped
-        environment:
-            - MYSQL_ROOT_PASSWORD=root
-            - MYSQL_DATABASE=plantas
-        networks:
-            - plantas-network
-networks:
-    plantas-network:
-        driver: bridge
+  plantas:
+    image: jonaykb/plantas-image
+    container_name: plantas-container
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+#    volumes:
+#      - .:/var/www
+    networks:
+      - plantas-network
+
+  plantas-webserver:
+    image: jonaykb/plantas-nginx-webserver-image
+    container_name: plantas-nginx-webserver
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+#    volumes:
+#     - .:/var/www
+#      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - plantas-network
+
+  plantas-mysqldb:
+    image: mysql:8.3.0
+    container_name: plantas-mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: 1q2w3e4r
+#    ports:
+#      - "3306:3306"
+    volumes:
+      - plantas-dbdata
+      - ./docker-compose/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - plantas-network
+
 volumes:
-    plantas-app:   # Volumen compartido
+  plantas-dbdata:
+networks:
+  plantas-network:

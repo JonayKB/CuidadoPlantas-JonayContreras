@@ -11,7 +11,7 @@ done
 if [ ! -d "/var/www/vendor" ]; then
     echo "Installing Composer..."
     composer update
-    composer install
+    composer install --no-dev
 fi
 
 # Instalar dependencias de Node.js
@@ -44,7 +44,6 @@ fi
 # Ejecutar migraciones
 echo "Doing migrations..."
 php /var/www/artisan migrate
-php artisan key:generate
 
 # Iniciar PHP-FPM
 echo "Starting PHP-FPM..."
