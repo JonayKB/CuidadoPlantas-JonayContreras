@@ -38,7 +38,8 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 ## Installing composer
-RUN composer update && composer install --no-dev
+RUN composer update
+# && composer install --no-dev
 
 # Installing npm and building
 RUN npm install && run build
