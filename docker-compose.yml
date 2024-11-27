@@ -41,6 +41,7 @@ services:
   plantas-mysqldb:
     image: mysql:8.3.0
     container_name: plantas-mysql-container
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: 1q2w3e4r
 #    ports:
