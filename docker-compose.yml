@@ -28,7 +28,7 @@ services:
     depends_on:
       - plantas
     ports:
-      - "8093:8093"
+      - "8093:80"
 #    volumes:
 #     - .:/var/www
 #      - ./docker-compose/nginx:/etc/nginx/conf.d/
