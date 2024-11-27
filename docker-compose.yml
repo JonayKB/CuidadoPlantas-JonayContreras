@@ -12,7 +12,8 @@ services:
       SERVICE_TAGS: dev
     working_dir: /var/www
     volumes:
-    - ./docker-compose/edited-php.ini:/usr/local/etc/php/conf.d/edited-php.ini
+      - volumen-compartido:/var/www
+      - ./docker-compose/edited-php.ini:/usr/local/etc/php/conf.d/edited-php.ini
     command: >
       sh -c "
       php artisan migrate --force &&
@@ -22,8 +23,6 @@ services:
     networks:
       - plantas-network
 
-
-
   plantas-webserver:
     image: jonaykb/plantas-nginx-webserver-image
     container_name: plantas-nginx-webserver
@@ -32,8 +31,8 @@ services:
       - plantas
     ports:
       - "8093:80"
-#    volumes:
-#     - .:/var/www
+    volumes:
+      - volumen-compartido:/var/www
 #      - ./docker-compose/nginx:/etc/nginx/conf.d/
     networks:
       - plantas-network
@@ -54,5 +53,6 @@ services:
 
 volumes:
   plantas-dbdata:
+  volumen-compartido:
 networks:
   plantas-network:
