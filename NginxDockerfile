@@ -8,5 +8,5 @@ COPY . /var/www
 # Set permissions
 RUN chmod -R 755 /var/www
 
-EXPOSE 80
+EXPOSE 8093
 CMD ["nginx", "-g", "daemon off;"]

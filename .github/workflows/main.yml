@@ -17,11 +17,11 @@ jobs:
       uses: actions/checkout@v2  # Obtiene el código fuente del repositorio
 
     - name: storage access
-      working-directory: ./Plantas
+
       run: chmod 777 storage -R && chmod 777 database -R && chmod 777 bootstrap -R
 
     - name: Set up .env file
-      working-directory: ./Plantas
+
       run: |
         echo "APP_NAME=${{vars.ENV_APP_NAME}}" > .env
         echo "APP_ENV=production" >> .env
@@ -45,7 +45,7 @@ jobs:
     - name: Build and push laravel php-fpm
       uses: docker/build-push-action@v6
       with:
-        context: ./Plantas
+        context: .
         file: AppDockerfile
         push: true
         tags: ${{ vars.DOCKERHUB_USERNAME }}/plantas-image:latest
@@ -53,7 +53,7 @@ jobs:
     - name: Build and push nginx
       uses: docker/build-push-action@v6
       with:
-        context: ./Plantas
+        context: .
         file: .NginxDockerfile
         push: true
         tags: ${{ vars.DOCKERHUB_USERNAME }}/plantas-nginx-webserver-image:latest

@@ -13,10 +13,7 @@ services:
     working_dir: /var/www
     command: >
       sh -c "
-      composer update &&
-      composer install &&
-      php artisan migrate &&
-      php artisan migrate --database=sqliteLocal &&
+      php artisan migrate --force &&
       php-fpm
       "
     networks:
@@ -31,7 +28,7 @@ services:
     depends_on:
       - plantas
     ports:
-      - "8080:80"
+      - "8093:8093"
 #    volumes:
 #     - .:/var/www
 #      - ./docker-compose/nginx:/etc/nginx/conf.d/
