@@ -75,6 +75,4 @@ jobs:
             docker-compose -f plantas_docker_compose.yaml down;
             docker rmi ${{ vars.DOCKERHUB_USERNAME }}/plantas-image:latest;
             docker rmi ${{ vars.DOCKERHUB_USERNAME }}/plantas-nginx-image:latest;
-            docker-compose -f plantas_docker_compose.yaml up -d plantas-mysqldb;
-            docker-compose -f plantas_docker_compose.yaml up -d plantas-webserver;
-            docker-compose -f plantas_docker_compose.yaml up -d plantas;
+            docker-compose -f plantas_docker_compose.yaml up -d;

@@ -14,6 +14,12 @@ services:
     volumes:
       - volumen-compartido:/var/www
       - ./docker-compose/edited-php.ini:/usr/local/etc/php/conf.d/edited-php.ini
+    command: >
+      sh -c "
+      php artisan migrate --force &&
+      php /var/www/artisan migrate --database sqliteLocal --force &&
+      php-fpm
+      "
     networks:
       - plantas-network
 
@@ -45,26 +51,6 @@ services:
     networks:
       - plantas-network
 
-  plantas-first-start:
-    image: jonaykb/plantas-image
-    container_name: plantas-first-start-container
-    depends_on:
-        - plantas-mysqldb
-    tty: true
-    environment:
-        SERVICE_NAME: app
-        SERVICE_TAGS: dev
-    working_dir: /var/www
-    volumes:
-        - volumen-compartido:/var/www
-        - ./docker-compose/edited-php.ini:/usr/local/etc/php/conf.d/edited-php.ini
-    entrypoint: [
-        "sh", "-c",
-        "php artisan migrate --force",
-        "php artisan migrate --database sqliteLocal --force",
-    ]
-    networks:
-        - plantas-network
 volumes:
   plantas-dbdata:
   volumen-compartido:
