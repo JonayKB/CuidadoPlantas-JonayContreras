@@ -11,9 +11,12 @@ services:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
     working_dir: /var/www
+    volumes:
+    - ./docker-compose/edited-php.ini:/usr/local/etc/php/conf.d/edited-php.ini
     command: >
       sh -c "
       php artisan migrate --force &&
+      php /var/www/artisan migrate --database sqliteLocal --force &&
       php-fpm
       "
     networks:

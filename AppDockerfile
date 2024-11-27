@@ -34,7 +34,8 @@ COPY . /var/www
 COPY --chown=www-data:www-data . /var/www
 
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
-    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache \
+    && chmod -R 775 /var/www/public/storage
 
 ## Installing composer
 RUN composer update && composer install --no-dev
@@ -45,12 +46,8 @@ RUN npm install && npm run build
 # Creating sqlite database
 RUN touch /var/www/database/database.sqlite &&\
 chmod 777 /var/www/database/database.sqlite &&\
-chown www-data:www-data /var/www/database/database.sqlite &&\
-php /var/www/artisan migrate --database sqliteLocal --force
+chown www-data:www-data /var/www/database/database.sqlite
 
-## Setting max file post size
-RUN echo "upload_max_filesize = 100M" >> /usr/local/etc/php/conf.d/uploads.ini &&\
-echo "post_max_size = 100M" >> /usr/local/etc/php/conf.d/uploads.ini
 
 ## Doing databse migration
 #RUN php /var/www/artisan migrate --force
