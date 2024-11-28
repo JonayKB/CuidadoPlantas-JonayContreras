@@ -17,7 +17,8 @@ services:
     command: >
       sh -c "
       php artisan migrate --force &&
-      php /var/www/artisan migrate --database sqliteLocal --force &&
+      touch /var/www/database/database.sqlite
+      php artisan migrate --database sqliteLocal --force &&
       php-fpm
       "
     networks:
