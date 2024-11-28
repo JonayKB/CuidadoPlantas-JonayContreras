@@ -17,8 +17,6 @@ services:
     command: >
       sh -c "
       php artisan migrate --force &&
-      touch /var/www/database/database.sqlite
-      php artisan migrate --database sqliteLocal --force &&
       php-fpm
       "
     networks:
@@ -47,7 +45,7 @@ services:
 #    ports:
 #      - "3306:3306"
     volumes:
-      - plantas-dbdata
+      - plantas-dbdata:/var/lib/mysql
       - ./docker-compose/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - plantas-network
